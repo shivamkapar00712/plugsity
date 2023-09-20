@@ -198,27 +198,47 @@ function handleSubmit() {
 
     console.log("isFormValid", data);
     postData(
-      "https://cors-anywhere.herokuapp.com/https://plugsity.herokuapp.com/api/WaitListUsers",
+      "http://ec2-3-95-240-121.compute-1.amazonaws.com/plugisty/avi/v1/saveCustomer",
       data
     )
       .then((data) => {
         // Display Modal
         console.log("response", data); // JSON data parsed by `data.json()` call
-        firstName.value = "";
-        lastName.value = "";
-        emailEl.value = "";
-        phoneEl.value = "";
-        messageEl.value = "";
-        $("modal-3").modal("show");
-        $("#preloder").fadeOut();
-        localStorage.setItem("isBusiness", false);
-        localStorage.setItem("*&#0__2t@m", data.id);
-        // location.href = "http://www.example.com/ThankYou.html"
-        window.location = "thankyou.html";
+        // firstName.value = "";
+        // lastName.value = "";
+        // emailEl.value = "";
+        // phoneEl.value = "";
+        // messageEl.value = "";
+        // $("modal-3").modal("show");
+        // $("#preloder").fadeOut();
+        // localStorage.setItem("isBusiness", false);
+        // localStorage.setItem("*&#0__2t@m", data.id);
+        // // location.href = "http://www.example.com/ThankYou.html"
+        // window.location = "thankyou.html";
+
+        if(data.Response.status == 200){
+          firstName.value = "";
+          lastName.value = "";
+          emailEl.value = "";
+          phoneEl.value = "";
+          messageEl.value = "";
+          localStorage.setItem("isBusiness", false);
+          localStorage.setItem("*&#0__2t@m", data.Response.token);
+          $("#preloder").fadeOut();
+          $("modal-3").modal("show");
+          window.location = "thankyou.html";
+        }else{
+          $("#preloder").fadeOut();
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
+        }
       })
       .catch((err) => {
-        $("#modal-2").modal("show");
+        // $("#modal-2").modal("show");
+        // $("#preloder").fadeOut();
         $("#preloder").fadeOut();
+        $("#modal-data").html("Something went wrong") ;
+        $("#modal-2").modal("show");
         console.log(err);
       });
   }

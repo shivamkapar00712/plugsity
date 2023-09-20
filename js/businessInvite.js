@@ -296,23 +296,23 @@ function display_array() {
       "</td>";
     e +=
       "<td class='success' style='width: 238px'>" +
-      array[y].businessWebsite +
+      array[y].website +
       "</td>";
     e +=
       "<td class='success' style='width: 238px'>" +
-      array[y].businessEmail +
+      array[y].email +
       "</td>";
     e +=
       "<td class='success' style='width: 238px'>" +
-      array[y].businessPhoneNumber +
+      array[y].phoneNumber +
       "</td>";
     e +=
       "<td class='success' style='width: 238px'>" +
-      array[y].businessAddress +
+      array[y].address +
       "</td>";
     e +=
       "<td class='success' style='width: 238px'>" +
-      array[y].businessSocialMedia +
+      array[y].socialMedia +
       "</td>";
     e += "<tr>";
   }
@@ -333,10 +333,10 @@ function handleSubmit() {
   let isPhoneValid = checkPhone();
   let isAddressValid = checkAddress();
 
-  var code = $("#phone").intlTelInput("getSelectedCountryData").dialCode;
+  // var code = $("#phone").intlTelInput("getSelectedCountryData").dialCode;
   var phoneNumber = $("#phone").val();
 
-  console.log("code::", code);
+  // console.log("code::", code);
   console.log("phoneNumber::", phoneNumber);
 
   let isFormValid =
@@ -352,14 +352,14 @@ function handleSubmit() {
 
     let data = {
       businessName: firstName.value.trim(),
-      businessWebsite: lastName.value.trim(),
-      businessEmail: emailEl.value.trim(),
-      businessPhoneNumber: phoneEl.value.trim(),
-      businessSocialMedia: social.value.trim(),
-      businessAddress: address.value.trim(),
+      website: lastName.value.trim(),
+      email: emailEl.value.trim(),
+      phoneNumber: phoneEl.value.trim(),
+      socialMedia: social.value.trim(),
+      address: address.value.trim(),
       // zipCode: zipCode.value.trim(),
       isRegistered: false,
-      waitListUserId: localStorage.getItem("*&#0__2t@m")
+      userRefKey: localStorage.getItem("*&#0__2t@m")
         ? localStorage.getItem("*&#0__2t@m")
         : null,
     };
@@ -373,7 +373,7 @@ function handleSubmit() {
     // zipCode.value = "";
     console.log("isFormValid", data);
     postData(
-      "https://cors-anywhere.herokuapp.com/https://plugsity.herokuapp.com/api/BusinessInvitations",
+      "http://ec2-3-95-240-121.compute-1.amazonaws.com/plugisty/avi/v1/inviteBusinessUser",
       data
     )
       .then((data) => {
@@ -396,18 +396,47 @@ function handleSubmit() {
         //   $("#preloder").fadeOut();
         // }
 
-        if (data) {
+
+        if(data.Response.status == 200){
+          console.log("inside :::::123213")
+
           firstName.value = "";
           lastName.value = "";
           emailEl.value = "";
           phoneEl.value = "";
           address.value = "";
           social.value = "";
-          // zipCode.value = "";
+
+
           array.push(validateData);
           display_array();
           $("#preloder").fadeOut();
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
+        }else if(data.Response.status == 302){
+          console.log("inside :::::")
+          $("#preloder").fadeOut();
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
+        }else{
+          console.log("inside:::::1")
+          $("#preloder").fadeOut();
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
         }
+
+        // if (data.errors) {
+        //   firstName.value = "";
+        //   lastName.value = "";
+        //   emailEl.value = "";
+        //   phoneEl.value = "";
+        //   address.value = "";
+        //   social.value = "";
+        //   // zipCode.value = "";
+        //   array.push(validateData);
+        //   display_array();
+        //   $("#preloder").fadeOut();
+        // }
 
         // $("modal-3").modal("show");
         // $("#preloder").fadeOut();
@@ -417,11 +446,12 @@ function handleSubmit() {
         // window.location = "thankyou.html";
       })
       .catch((err) => {
-        $("#modal-2").modal("show");
-        $("#preloder").fadeOut();
         array = [];
         console.log(err);
-        alert("Something went wrong please try again");
+
+        $("#preloder").fadeOut();
+        $("#modal-data").html("Something went wrong please try again") ;
+        $("#modal-2").modal("show");
       });
   }
 }
@@ -452,27 +482,31 @@ function handleMobileSubmit() {
 
     let data = {
       businessName: businessNameMobileEl.value.trim(),
-      businessWebsite: businessWebsiteMobile.value.trim(),
-      businessEmail: businessEmailMobileEl.value.trim(),
-      businessPhoneNumber: businessPhoneMobileEl.value.trim(),
-      businessSocialMedia: businessSocialMobileEl.value.trim(),
-      businessAddress: businessAddressMobileEl.value.trim(),
+      website: businessWebsiteMobile.value.trim(),
+      email: businessEmailMobileEl.value.trim(),
+      phoneNumber: businessPhoneMobileEl.value.trim(),
+      socialMedia: businessSocialMobileEl.value.trim(),
+      address: businessAddressMobileEl.value.trim(),
       isRegistered: false,
-      waitListUserId: localStorage.getItem("*&#0__2t@m")
+      userRefKey: localStorage.getItem("*&#0__2t@m")
         ? localStorage.getItem("*&#0__2t@m")
         : null,
     };
 
     const validateData = data;
     postData(
-      "https://cors-anywhere.herokuapp.com/https://plugsity.herokuapp.com/api/BusinessInvitations",
+      "http://ec2-3-95-240-121.compute-1.amazonaws.com/plugisty/avi/v1/inviteBusinessUser",
       data
     )
       .then((data) => {
         // Display Modal
         console.log("response", data); // JSON data parsed by `data.json()` call
 
-        if (data) {
+
+
+        if(data.Response.status == 200){
+          console.log("inside :::::123213")
+
           businessNameMobileEl.value = "";
           businessWebsiteMobile.value = "";
           businessEmailMobileEl.value = "";
@@ -480,20 +514,31 @@ function handleMobileSubmit() {
           businessAddressMobileEl.value = "";
           businessSocialMobileEl.value = "";
 
+
+          // array.push(validateData);
+          // display_array();
           $("#preloder").fadeOut();
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
+        }else if(data.Response.status == 302){
+          console.log("inside :::::")
+          $("#preloder").fadeOut();
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
+        }else{
+          console.log("inside:::::1")
+          $("#preloder").fadeOut();
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
         }
 
-        // $("modal-3").modal("show");
-        // $("#preloder").fadeOut();
-        // localStorage.setItem("isBusiness", false);
-        // localStorage.setItem("*&#0__2t@m", data.id);
-        // location.href = "http://www.example.com/ThankYou.html"
-        // window.location = "thankyou.html";
+
       })
       .catch((err) => {
-        $("#modal-2").modal("show");
         $("#preloder").fadeOut();
-        alert("Something went wrong please try again");
+        $("#modal-data").html("Something went wrong please try again") ;
+        $("#modal-2").modal("show");
+        // alert("Something went wrong please try again");
       });
   }
 }

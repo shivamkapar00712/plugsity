@@ -289,8 +289,8 @@ function handleSubmit() {
       email: emailEl.value.trim(),
       phoneNumber: phoneEl.value.trim(),
       zipCode: zipCode.value.trim(),
-      isRegistered: false,
-      waitListUserId: localStorage.getItem("*&#0__2t@m")
+      // isRegistered: false,
+      userRefKey: localStorage.getItem("*&#0__2t@m")
         ? localStorage.getItem("*&#0__2t@m")
         : null,
     };
@@ -304,14 +304,15 @@ function handleSubmit() {
     // zipCode.value = "";
     console.log("isFormValid", data);
     postData(
-      "https://cors-anywhere.herokuapp.com/https://plugsity.herokuapp.com/api/CustomerInvitations",
+      "http://ec2-3-95-240-121.compute-1.amazonaws.com/plugisty/avi/v1/inviteCustomer",
       data
     )
       .then((data) => {
         // Display Modal
         console.log("response", data); // JSON data parsed by `data.json()` call
+        if(data.Response.status == 200){
+          console.log("inside :::::123213")
 
-        if (data) {
           firstName.value = "";
           lastName.value = "";
           emailEl.value = "";
@@ -320,7 +321,18 @@ function handleSubmit() {
           array.push(validateData);
           display_array();
           $("#preloder").fadeOut();
+        }else if(data.Response.status == 302){
+          console.log("inside :::::")
+          $("#preloder").fadeOut();
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
+        }else{
+          console.log("inside:::::1")
+          $("#preloder").fadeOut();
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
         }
+
 
         // $("modal-3").modal("show");
         // $("#preloder").fadeOut();
@@ -364,51 +376,46 @@ function handleMobileSubmit() {
       email: emailMobileEl.value.trim(),
       phoneNumber: phoneMobileEl.value.trim(),
       zipCode: zipCodeMobile.value.trim(),
-      isRegistered: false,
-      waitListUserId: localStorage.getItem("*&#0__2t@m")
+      // isRegistered: false,
+      userRefKey: localStorage.getItem("*&#0__2t@m")
         ? localStorage.getItem("*&#0__2t@m")
         : null,
     };
 
     const validateData = data;
     postData(
-      "https://cors-anywhere.herokuapp.com/https://plugsity.herokuapp.com/api/CustomerInvitations",
+      "http://ec2-3-95-240-121.compute-1.amazonaws.com/plugisty/avi/v1/inviteCustomer",
       data
     )
       .then((data) => {
         // Display Modal
         console.log("response", data); // JSON data parsed by `data.json()` call
-        location.href = "consumer-invite.html";
+        // location.href = "consumer-invite.html";
 
-        // if (data.status != 200) {
-        //   // if(data.errors.BusinessEmail)
-        //   alert("Something went wrong please try again");
-        // } else {
-        //   firstName.value = "";
-        //   lastName.value = "";
-        //   emailEl.value = "";
-        //   phoneEl.value = "";
-        //   zipCode.value = "";
+        if(data.Response.status == 200){
+          console.log("inside :::::123213")
 
-        //   $("#preloder").fadeOut();
-        // }
-
-        if (data) {
           firstName.value = "";
           lastName.value = "";
           emailEl.value = "";
           phoneEl.value = "";
           zipCode.value = "";
-
+          // array.push(validateData);
+          // display_array();
           $("#preloder").fadeOut();
+        }else if(data.Response.status == 302){
+          console.log("inside :::::")
+          $("#preloder").fadeOut();
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
+        }else{
+          console.log("inside:::::1")
+          $("#preloder").fadeOut();
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
         }
 
-        // $("modal-3").modal("show");
-        // $("#preloder").fadeOut();
-        // localStorage.setItem("isBusiness", false);
-        // localStorage.setItem("*&#0__2t@m", data.id);
-        // location.href = "http://www.example.com/ThankYou.html"
-        // window.location = "thankyou.html";
+
       })
       .catch((err) => {
         $("#modal-2").modal("show");

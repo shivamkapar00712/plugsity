@@ -16,7 +16,12 @@ document.getElementById("fileUploader").addEventListener("change", (event) => {
       var json_object = JSON.stringify(XL_row_object);
 
       var parsedJson = JSON.parse(json_object);
-      jsonArr = parsedJson;
+
+      const verifiedData = parsedJson.filter((item) => isBetween(item.businessName.length , 3,20) && (item.businessName !== undefined) &&  isEmailValid(item.email) && isValidURL(item.website) && isValidPhone(item.phoneNumber))
+
+      jsonArr = verifiedData;
+
+
       document.getElementById("btn-sec").style.display = "block";
 
       // for (let item in json_object) {
@@ -35,31 +40,31 @@ document.getElementById("fileUploader").addEventListener("change", (event) => {
       e += "   <th>Social Media</th>";
       e += "  </tr>";
       e += "</thead>";
-      for (var y = 0; y < parsedJson.length; y++) {
+      for (var y = 0; y < jsonArr.length; y++) {
         e += "<tr>";
         e +=
           "<td class='success' style='width: 238px'>" +
-          parsedJson[y].businessName +
+            jsonArr[y].businessName +
           "</td>";
         e +=
           "<td class='success' style='width: 238px'>" +
-          parsedJson[y].businessWebsite +
+            jsonArr[y].website +
           "</td>";
         e +=
           "<td class='success' style='width: 238px'>" +
-          parsedJson[y].businessEmail +
+            jsonArr[y].email +
           "</td>";
         e +=
           "<td class='success' style='width: 238px'>" +
-          parsedJson[y].businessPhoneNumber +
+            jsonArr[y].phoneNumber +
           "</td>";
         e +=
           "<td class='success' style='width: 238px'>" +
-          parsedJson[y].businessAddress +
+            jsonArr[y].address +
           "</td>";
         e +=
           "<td class='success' style='width: 238px'>" +
-          parsedJson[y].businessSocialMedia +
+            jsonArr[y].socialMedia +
           "</td>";
         e += "<tr>";
       }
@@ -245,69 +250,19 @@ const checkEmail = (val) => {
   let valid = false;
   const email = emailEl.value.trim();
   if (!isRequired(email)) {
-    showError(emailEl, "Email cannot be blank.");
+    // showError(emailEl, "Email cannot be blank.");
+    return false
   } else if (!isEmailValid(email)) {
-    showError(emailEl, "Email is not valid.");
+    // showError(emailEl, "Email is not valid.");
+    return false
   } else {
+    return true
     showSuccess(emailEl);
     valid = true;
   }
   return valid;
 };
 
-// Check Validation for contact form
-
-// const checkContactFirstname = () => {
-//   let valid = false;
-//   const min = 3,
-//     max = 25;
-//   const username = firstNameContact.value.trim();
-//   if (!isRequired(username)) {
-//     showError(firstNameContact, "First name cannot be blank.");
-//   } else if (!isBetween(username.length, min, max)) {
-//     showError(
-//       firstNameContact,
-//       `First name must be between ${min} and ${max} characters.`
-//     );
-//   } else {
-//     showSuccess(firstNameContact);
-//     valid = true;
-//   }
-//   return valid;
-// };
-
-// const checkContactLastname = () => {
-//   let valid = false;
-//   const min = 3,
-//     max = 25;
-//   const username = lastNameContact.value.trim();
-//   if (!isRequired(username)) {
-//     showError(lastNameContact, "Lastname cannot be blank.");
-//   } else if (!isBetween(username.length, min, max)) {
-//     showError(
-//       lastNameContact,
-//       `Lastname must be between ${min} and ${max} characters.`
-//     );
-//   } else {
-//     showSuccess(lastNameContact);
-//     valid = true;
-//   }
-//   return valid;
-// };
-
-// const checkContactEmail = () => {
-//   let valid = false;
-//   const email = emailContact.value.trim();
-//   if (!isRequired(email)) {
-//     showError(emailContact, "Email cannot be blank.");
-//   } else if (!isEmailValid(email)) {
-//     showError(emailContact, "Email is not valid.");
-//   } else {
-//     showSuccess(emailContact);
-//     valid = true;
-//   }
-//   return valid;
-// };
 
 const isEmailValid = (email) => {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -348,44 +303,14 @@ const showSuccess = (input) => {
   error.textContent = "";
 };
 
-// function display_array() {
-//   var e = "<tbody>";
-//   for (var y = 0; y < array.length; y++) {
-//     e += "<tr>";
-//     e +=
-//       "<td class='success' style='width: 238px'>" +
-//       array[y].firstName +
-//       "</td>";
-//     e +=
-//       "<td class='success' style='width: 238px'>" + array[y].lastName + "</td>";
-//     e += "<td class='success' style='width: 238px'>" + array[y].email + "</td>";
-//     e +=
-//       "<td class='success' style='width: 238px'>" +
-//       array[y].phoneNumber +
-//       "</td>";
-//     e +=
-//       "<td class='success' style='width: 238px'>" + array[y].zipCode + "</td>";
-//     e += "<tr>";
-//   }
-//   e += "<tbody/>";
 
-//   document.getElementById("tableData").innerHTML = e;
-// }
 
 const handleRedirect = () => {
   location.href = "consumer-invite.html";
 };
 
-const handleSubmit = () => {
+const  handleSubmit =  () => {
   console.log("jsonArr", jsonArr);
-  // validate fields
-  // let isUsernameValid = checkUsername();
-  // let isLastnameValid = checkLastname();
-  // let isEmailValid = checkEmail();
-  // let isPhoneValid = checkPhone();
-
-  // let isFormValid =
-  //   isUsernameValid && isEmailValid && isLastnameValid && isPhoneValid;
 
   // submit to the server if the form is valid
   $("#preloder").fadeIn();
@@ -397,75 +322,69 @@ const handleSubmit = () => {
   const newArr = jsonArr.map((v) => ({
     ...v,
     isRegistered: false,
-    waitListUserId: localStorage.getItem("*&#0__2t@m")
+    userRefKey: localStorage.getItem("*&#0__2t@m")
       ? localStorage.getItem("*&#0__2t@m")
       : null,
   }));
 
   console.log("newArr::", newArr);
 
-  newArr.map((item) => {
-    postData(
-      "https://cors-anywhere.herokuapp.com/https://plugsity.herokuapp.com/api/BusinessInvitations",
-      item
-    )
-      .then((data) => {
-        // Display Modal
-        console.log("response", data); // JSON data parsed by `data.json()` call
-        // location.href = "consumer-invite.html";
-        // if (data.status != 200) {
-        //   // if(data.errors.BusinessEmail)
-        //   alert("Something went wrong please try again");
-        // } else {
-        location.href = "consumer-invite.html";
-        // }
-        // if (data) {
-        //   firstName.value = "";
-        //   lastName.value = "";
-        //   emailEl.value = "";
-        //   phoneEl.value = "";
-        //   zipCode.value = "";
-        //   array.push(validateData);
-        //   display_array();
-        //   $("#preloder").fadeOut();
-        // }
 
-        // $("modal-3").modal("show");
-        $("#preloder").fadeOut();
-        // localStorage.setItem("isBusiness", false);
-        // localStorage.setItem("*&#0__2t@m", data.id);
-        // location.href = "http://www.example.com/ThankYou.html"
-        // window.location = "thankyou.html";
+  // newArr.forEach((object) => {
+  //   callApiForObject(object);
+  // });
+
+  async function processObjects() {
+    for (const object of newArr) {
+      await postData(
+            "http://ec2-3-95-240-121.compute-1.amazonaws.com/plugisty/avi/v1/inviteBusinessUser",
+            object)
+            .then((data) => {
+              // Display Modal
+              console.log("response", data); // JSON data parsed by `data.json()` call
+              // location.href = "consumer-invite.html";
+
+              if(data.Response.status == 200){
+                console.log("inside :::::123213")
+
+                $("#preloder").fadeOut();
+                $("#modal-data").html(data.Response.message) ;
+                $("#modal-2").modal("show");
+              }else if(data.Response.status == 302){
+                console.log("inside :::::")
+                $("#preloder").fadeOut();
+                $("#modal-data").html(data.Response.message) ;
+                $("#modal-2").modal("show");
+              }else{
+                console.log("inside:::::1")
+                $("#preloder").fadeOut();
+                $("#modal-data").html(data.Response.message) ;
+                $("#modal-2").modal("show");
+              }
+            })
+            .catch((err) => {
+              $("#preloder").fadeOut();
+              $("#modal-data").html("Something went wrong please try again") ;
+              $("#modal-2").modal("show");
+            });
+
+    }
+  }
+
+  // Start processing objects and handle any exceptions
+  processObjects()
+      .then(() => {
+        console.log('All API requests completed.');
       })
-      .catch((err) => {
-        $("#modal-2").modal("show");
+      .catch((error) => {
         $("#preloder").fadeOut();
-        // array = [];
-        console.log(err);
-        alert("Something went wrong please try again");
+        $("#modal-data").html(error) ;
+        $("#modal-2").modal("show");
+        console.error('Error during processing:', error);
       });
-  });
 
-  // let data = {
-  //   firstName: firstName.value.trim(),
-  //   lastName: lastName.value.trim(),
-  //   email: emailEl.value.trim(),
-  //   phoneNumber: phoneEl.value.trim(),
-  //   zipCode: zipCode.value.trim(),
-  //   isRegistered: false,
-  //   waitListUserId: localStorage.getItem("*&#0__2t@m")
-  //     ? localStorage.getItem("*&#0__2t@m")
-  //     : null,
-  // };
 
-  // const validateData = data;
 
-  // // firstName.value = "";
-  // // lastName.value = "";
-  // // emailEl.value = "";
-  // // phoneEl.value = "";
-  // // zipCode.value = "";
-  // console.log("isFormValid", data);
 };
 
 function handleCancel() {
@@ -507,7 +426,7 @@ function handleMobileSubmit() {
 
     const validateData = data;
     postData(
-      "https://cors-anywhere.herokuapp.com/https://plugsity.herokuapp.com/api/BusinessInvitations",
+      "http://ec2-3-95-240-121.compute-1.amazonaws.com/plugisty/avi/v1/inviteBusinessUser",
       data
     )
       .then((data) => {
@@ -539,42 +458,6 @@ function handleMobileSubmit() {
   }
 }
 
-// function handleContactForm() {
-//   //  validate fields
-//   let isUsernameValid = checkContactFirstname();
-//   let isLastnameValid = checkContactLastname();
-//   let isEmailValid = checkContactEmail();
-//   let isFormValid = isUsernameValid && isEmailValid && isLastnameValid;
-//   // submit to the server if the form is valid
-//   if (isFormValid) {
-//     $("#preloder").fadeIn();
-//     let data = {
-//       firstName: firstNameContact.value.trim(),
-//       lastName: lastNameContact.value.trim(),
-//       email: emailContact.value.trim(),
-//       subject: subject.value.trim(),
-//       message: messageContact.value.trim(),
-//     };
-//     console.log("isFormValid", data);
-//     postData(
-//       "https://plugsity.herokuapp.com/api/ContactUs",
-//       data
-//     )
-//       .then((data) => {
-//         $("#preloder").fadeOut();
-//         handleCancel();
-//         $("#modal-1").modal("hide");
-//         console.log("response", data); // JSON data parsed by `data.json()` call
-//       })
-//       .catch((err) => {
-//         $("#preloder").fadeOut();
-//         handleCancel();
-//         $("#modal-1").modal("hide");
-
-//         console.log(err);
-//       });
-//   }
-// }
 
 const debounce = (fn, delay = 500) => {
   let timeoutId;
@@ -590,22 +473,6 @@ const debounce = (fn, delay = 500) => {
   };
 };
 
-// contactForm.addEventListener(
-//   "input",
-//   debounce(function (e) {
-//     switch (e.target.id) {
-//       case "firstNameContact":
-//         checkContactFirstname();
-//         break;
-//       case "lastNameContact":
-//         checkContactLastname();
-//         break;
-//       case "emailContact":
-//         checkContactEmail();
-//         break;
-//     }
-//   })
-// );
 
 form.addEventListener(
   "input",
@@ -649,6 +516,8 @@ contactForm.addEventListener(
     }
   })
 );
+
+
 
 // Example POST method implementation:
 async function postData(url = "", data = {}) {
