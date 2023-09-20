@@ -266,7 +266,11 @@ function display_array() {
 }
 
 const handleRedirect = () => {
-  location.href = "consumer-invite.html";
+  if(localStorage.getItem('isBusiness')){
+    location.href = "business-invite.html";
+  }else{
+    location.href = "consumer-invite.html";
+  }
 };
 
 function handleSubmit() {

@@ -342,21 +342,17 @@ const  handleSubmit =  () => {
             .then((data) => {
               // Display Modal
               console.log("response", data); // JSON data parsed by `data.json()` call
-              // location.href = "consumer-invite.html";
 
               if(data.Response.status == 200){
-                console.log("inside :::::123213")
-
                 $("#preloder").fadeOut();
                 $("#modal-data").html(data.Response.message) ;
                 $("#modal-2").modal("show");
+                location.href = "business-invite.html";
               }else if(data.Response.status == 302){
-                console.log("inside :::::")
                 $("#preloder").fadeOut();
                 $("#modal-data").html(data.Response.message) ;
                 $("#modal-2").modal("show");
               }else{
-                console.log("inside:::::1")
                 $("#preloder").fadeOut();
                 $("#modal-data").html(data.Response.message) ;
                 $("#modal-2").modal("show");
@@ -413,13 +409,13 @@ function handleMobileSubmit() {
 
     let data = {
       businessName: businessNameMobileEl.value.trim(),
-      businessWebsite: businessWebsiteMobile.value.trim(),
-      businessEmail: businessEmailMobileEl.value.trim(),
-      businessPhoneNumber: businessPhoneMobileEl.value.trim(),
-      businessSocialMedia: businessSocialMobileEl.value.trim(),
-      businessAddress: businessAddressMobileEl.value.trim(),
+      website: businessWebsiteMobile.value.trim(),
+      email: businessEmailMobileEl.value.trim(),
+      phoneNumber: businessPhoneMobileEl.value.trim(),
+      socialMedia: businessSocialMobileEl.value.trim(),
+      address: businessAddressMobileEl.value.trim(),
       isRegistered: false,
-      waitListUserId: localStorage.getItem("*&#0__2t@m")
+      userRefKey: localStorage.getItem("*&#0__2t@m")
         ? localStorage.getItem("*&#0__2t@m")
         : null,
     };
@@ -432,7 +428,8 @@ function handleMobileSubmit() {
       .then((data) => {
         // Display Modal
         console.log("response", data); // JSON data parsed by `data.json()` call
-        if (data) {
+
+        if(data.Response.status == 200){
           businessNameMobileEl.value = "";
           businessWebsiteMobile.value = "";
           businessEmailMobileEl.value = "";
@@ -441,20 +438,24 @@ function handleMobileSubmit() {
           businessSocialMobileEl.value = "";
 
           $("#preloder").fadeOut();
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
+        }else if(data.Response.status == 302){
+          $("#preloder").fadeOut();
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
+        }else{
+          $("#preloder").fadeOut();
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
         }
-
-        // $("modal-3").modal("show");
-        // $("#preloder").fadeOut();
-        // localStorage.setItem("isBusiness", false);
-        // localStorage.setItem("*&#0__2t@m", data.id);
-        // location.href = "http://www.example.com/ThankYou.html"
-        // window.location = "thankyou.html";
       })
-      .catch((err) => {
-        $("#modal-2").modal("show");
-        $("#preloder").fadeOut();
-        alert("Something went wrong please try again");
-      });
+        .catch((err) => {
+          $("#preloder").fadeOut();
+          $("#modal-data").html("Something went wrong please try again") ;
+          $("#modal-2").modal("show");
+        });
+
   }
 }
 

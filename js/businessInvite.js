@@ -321,8 +321,16 @@ function display_array() {
   document.getElementById("tableData").innerHTML = e;
 }
 
+// const handleRedirect = () => {
+//   location.href = "consumer-invite.html";
+// };
+
 const handleRedirect = () => {
-  location.href = "consumer-invite.html";
+  if(localStorage.getItem('isBusiness')){
+    location.href = "business-invite.html";
+  }else{
+    location.href = "consumer-invite.html";
+  }
 };
 
 function handleSubmit() {

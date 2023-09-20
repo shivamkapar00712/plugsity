@@ -16,6 +16,12 @@ document.getElementById("fileUploader").addEventListener("change", (event) => {
 
       var parsedJson = JSON.parse(json_object);
       jsonArr = parsedJson;
+
+      const verifiedData = parsedJson.filter((item) => isBetween(item.firstName.length , 3,20) && (item.firstName !== undefined) &&  isEmailValid(item.email) && isValidPhone(item.phoneNumber))
+
+      jsonArr = verifiedData;
+
+
       document.getElementById("btn-sec").style.display = "block";
 
       // for (let item in json_object) {
@@ -33,27 +39,27 @@ document.getElementById("fileUploader").addEventListener("change", (event) => {
       e += "   <th>Zipcode</th>";
       e += "  </tr>";
       e += "</thead>";
-      for (var y = 0; y < parsedJson.length; y++) {
+      for (var y = 0; y < jsonArr.length; y++) {
         e += "<tr>";
         e +=
           "<td class='success' style='width: 238px'>" +
-          parsedJson[y].firstName +
+            jsonArr[y].firstName +
           "</td>";
         e +=
           "<td class='success' style='width: 238px'>" +
-          parsedJson[y].lastName +
+            jsonArr[y].lastName +
           "</td>";
         e +=
           "<td class='success' style='width: 238px'>" +
-          parsedJson[y].email +
+            jsonArr[y].email +
           "</td>";
         e +=
           "<td class='success' style='width: 238px'>" +
-          parsedJson[y].phoneNumber +
+            jsonArr[y].phoneNumber +
           "</td>";
         e +=
           "<td class='success' style='width: 238px'>" +
-          parsedJson[y].zipCode +
+            jsonArr[y].zipCode +
           "</td>";
         e += "<tr>";
       }
@@ -342,89 +348,68 @@ const handleRedirect = () => {
 
 const handleSubmit = () => {
   console.log("jsonArr", jsonArr);
-  // validate fields
-  // let isUsernameValid = checkUsername();
-  // let isLastnameValid = checkLastname();
-  // let isEmailValid = checkEmail();
-  // let isPhoneValid = checkPhone();
 
-  // let isFormValid =
-  //   isUsernameValid && isEmailValid && isLastnameValid && isPhoneValid;
+  if(jsonArr.length == 0){
+    $("#modal-data").html("Please verify data in excel should be correct") ;
+    $("#modal-2").modal("show");
+  }else{
+    // submit to the server if the form is valid
+    $("#preloder").fadeIn();
 
-  // submit to the server if the form is valid
-  $("#preloder").fadeIn();
 
-  // json.map((item, index) => {
-  //   console.log("item::", item);
-  // });
+    const newArr = jsonArr.map((v) => ({
+      ...v,
+      isRegistered: false,
+      userRefKey: localStorage.getItem("*&#0__2t@m")
+          ? localStorage.getItem("*&#0__2t@m")
+          : null,
+    }));
 
-  const newArr = jsonArr.map((v) => ({
-    ...v,
-    isRegistered: false,
-    waitListUserId: localStorage.getItem("*&#0__2t@m")
-      ? localStorage.getItem("*&#0__2t@m")
-      : null,
-  }));
+    async function processObjects() {
+      for (const object of newArr) {
+        await postData(
+            "http://ec2-3-95-240-121.compute-1.amazonaws.com/plugisty/avi/v1/inviteCustomer",
+            object)
+            .then((data) => {
+              // Display Modal
+              console.log("response", data); // JSON data parsed by `data.json()` call
+              // location.href = "consumer-invite.html";
 
-  console.log("newArr::", newArr);
+              if(data.Response.status == 200){
+                $("#preloder").fadeOut();
+                $("#modal-data").html(data.Response.message) ;
+                $("#modal-2").modal("show");
+                location.href = "consumer-invite.html";
+              }else if(data.Response.status == 302){
+                $("#preloder").fadeOut();
+                $("#modal-data").html(data.Response.message) ;
+                $("#modal-2").modal("show");
+              }else{
+                $("#preloder").fadeOut();
+                $("#modal-data").html(data.Response.message) ;
+                $("#modal-2").modal("show");
+              }
+            })
+            .catch((err) => {
+              $("#preloder").fadeOut();
+              $("#modal-data").html("Something went wrong please try again") ;
+              $("#modal-2").modal("show");
+            });
+      }
+    }
 
-  newArr.map((item) => {
-    postData(
-      "https://cors-anywhere.herokuapp.com/https://plugsity.herokuapp.com/api/CustomerInvitations",
-      item
-    )
-      .then((data) => {
-        // Display Modal
-        console.log("response", data); // JSON data parsed by `data.json()` call
-        location.href = "consumer-invite.html";
-
-        // if (data) {
-        //   firstName.value = "";
-        //   lastName.value = "";
-        //   emailEl.value = "";
-        //   phoneEl.value = "";
-        //   zipCode.value = "";
-        //   array.push(validateData);
-        //   display_array();
-        //   $("#preloder").fadeOut();
-        // }
-
-        // $("modal-3").modal("show");
-        $("#preloder").fadeOut();
-        // localStorage.setItem("isBusiness", false);
-        // localStorage.setItem("*&#0__2t@m", data.id);
-        // location.href = "http://www.example.com/ThankYou.html"
-        // window.location = "thankyou.html";
-      })
-      .catch((err) => {
-        $("#modal-2").modal("show");
-        $("#preloder").fadeOut();
-        // array = [];
-        console.log(err);
-        alert("Something went wrong please try again");
-      });
-  });
-
-  // let data = {
-  //   firstName: firstName.value.trim(),
-  //   lastName: lastName.value.trim(),
-  //   email: emailEl.value.trim(),
-  //   phoneNumber: phoneEl.value.trim(),
-  //   zipCode: zipCode.value.trim(),
-  //   isRegistered: false,
-  //   waitListUserId: localStorage.getItem("*&#0__2t@m")
-  //     ? localStorage.getItem("*&#0__2t@m")
-  //     : null,
-  // };
-
-  // const validateData = data;
-
-  // // firstName.value = "";
-  // // lastName.value = "";
-  // // emailEl.value = "";
-  // // phoneEl.value = "";
-  // // zipCode.value = "";
-  // console.log("isFormValid", data);
+    // Start processing objects and handle any exceptions
+    processObjects()
+        .then(() => {
+          console.log('All API requests completed.');
+        })
+        .catch((error) => {
+          $("#preloder").fadeOut();
+          $("#modal-data").html(error) ;
+          $("#modal-2").modal("show");
+          console.error('Error during processing:', error);
+        });
+  }
 };
 
 function handleCancel() {
@@ -453,20 +438,21 @@ function handleMobileSubmit() {
       phoneNumber: phoneMobileEl.value.trim(),
       zipCode: zipCodeMobile.value.trim(),
       isRegistered: false,
-      waitListUserId: localStorage.getItem("*&#0__2t@m")
+      userRefKey: localStorage.getItem("*&#0__2t@m")
         ? localStorage.getItem("*&#0__2t@m")
         : null,
     };
 
     const validateData = data;
     postData(
-      "https://cors-anywhere.herokuapp.com/https://plugsity.herokuapp.com/api/CustomerInvitations",
+      "http://ec2-3-95-240-121.compute-1.amazonaws.com/plugisty/avi/v1/inviteCustomer",
       data
     )
       .then((data) => {
         // Display Modal
         console.log("response", data); // JSON data parsed by `data.json()` call
-        if (data) {
+
+        if(data.Response.status == 200){
           firstNameMobile.value = "";
           lastNameMobile.value = "";
           emailMobileEl.value = "";
@@ -474,60 +460,28 @@ function handleMobileSubmit() {
           zipCodeMobile.value = "";
 
           $("#preloder").fadeOut();
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
+          location.href = "consumer-invite.html";
+        }else if(data.Response.status == 302){
+          $("#preloder").fadeOut();
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
+        }else{
+          $("#preloder").fadeOut();
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
         }
-
-        // $("modal-3").modal("show");
-        // $("#preloder").fadeOut();
-        // localStorage.setItem("isBusiness", false);
-        // localStorage.setItem("*&#0__2t@m", data.id);
-        // location.href = "http://www.example.com/ThankYou.html"
-        // window.location = "thankyou.html";
       })
-      .catch((err) => {
-        console.log("err", err);
-        $("#modal-2").modal("show");
-        $("#preloder").fadeOut();
-        alert("Something went wrong please try again");
-      });
+        .catch((err) => {
+          $("#preloder").fadeOut();
+          $("#modal-data").html("Something went wrong please try again") ;
+          $("#modal-2").modal("show");
+        });
+
   }
 }
 
-// function handleContactForm() {
-//   //  validate fields
-//   let isUsernameValid = checkContactFirstname();
-//   let isLastnameValid = checkContactLastname();
-//   let isEmailValid = checkContactEmail();
-//   let isFormValid = isUsernameValid && isEmailValid && isLastnameValid;
-//   // submit to the server if the form is valid
-//   if (isFormValid) {
-//     $("#preloder").fadeIn();
-//     let data = {
-//       firstName: firstNameContact.value.trim(),
-//       lastName: lastNameContact.value.trim(),
-//       email: emailContact.value.trim(),
-//       subject: subject.value.trim(),
-//       message: messageContact.value.trim(),
-//     };
-//     console.log("isFormValid", data);
-//     postData(
-//       "https://plugsity.herokuapp.com/api/ContactUs",
-//       data
-//     )
-//       .then((data) => {
-//         $("#preloder").fadeOut();
-//         handleCancel();
-//         $("#modal-1").modal("hide");
-//         console.log("response", data); // JSON data parsed by `data.json()` call
-//       })
-//       .catch((err) => {
-//         $("#preloder").fadeOut();
-//         handleCancel();
-//         $("#modal-1").modal("hide");
-
-//         console.log(err);
-//       });
-//   }
-// }
 
 const debounce = (fn, delay = 500) => {
   let timeoutId;
@@ -542,23 +496,6 @@ const debounce = (fn, delay = 500) => {
     }, delay);
   };
 };
-
-// contactForm.addEventListener(
-//   "input",
-//   debounce(function (e) {
-//     switch (e.target.id) {
-//       case "firstNameContact":
-//         checkContactFirstname();
-//         break;
-//       case "lastNameContact":
-//         checkContactLastname();
-//         break;
-//       case "emailContact":
-//         checkContactEmail();
-//         break;
-//     }
-//   })
-// );
 
 form.addEventListener(
   "input",

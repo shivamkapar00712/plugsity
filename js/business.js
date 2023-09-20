@@ -277,19 +277,36 @@ function handleContactForm() {
     };
     console.log("isFormValid", data);
     postData(
-      "https://cors-anywhere.herokuapp.com/https://plugsity.herokuapp.com/api/ContactUs",
+      "http://ec2-3-95-240-121.compute-1.amazonaws.com/plugisty/avi/v1/saveContactUs",
       data
     )
       .then((data) => {
-        $("#preloder").fadeOut();
-        handleCancel();
         $("#modal-1").modal("hide");
-        console.log("response", data); // JSON data parsed by `data.json()` call
+
+        if(data.Response.status == 200){
+
+          $("#preloder").fadeOut();
+          handleCancel();
+          $("#modal-data").html("Thanks for contact us we will revert you soon") ;
+          $("#modal-2").modal("show");
+        }else{
+          $("#preloder").fadeOut();
+          handleCancel();
+
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
+        }
+
+
       })
       .catch((err) => {
+
         $("#preloder").fadeOut();
         handleCancel();
         $("#modal-1").modal("hide");
+        $("#modal-data").html("Something went wrong please try again later") ;
+        $("#modal-2").modal("show");
+
 
         console.log(err);
       });
