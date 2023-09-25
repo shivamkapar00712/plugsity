@@ -198,7 +198,7 @@ function handleSubmit() {
 
     console.log("isFormValid", data);
     postData(
-      "http://ec2-3-95-240-121.compute-1.amazonaws.com/plugisty/avi/v1/saveCustomer",
+      "http://dev.plugsity.com/plugisty/avi/v1/saveCustomer",
       data
     )
       .then((data) => {
@@ -267,7 +267,7 @@ function handleContactForm() {
     };
     console.log("isFormValid", data);
     postData(
-        "http://ec2-3-95-240-121.compute-1.amazonaws.com/plugisty/avi/v1/saveContactUs",
+        "http://dev.plugsity.com/plugisty/avi/v1/saveContactUs",
         data
     )
         .then((data) => {

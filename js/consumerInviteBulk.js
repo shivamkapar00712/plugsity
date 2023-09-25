@@ -368,7 +368,7 @@ const handleSubmit = () => {
     async function processObjects() {
       for (const object of newArr) {
         await postData(
-            "http://ec2-3-95-240-121.compute-1.amazonaws.com/plugisty/avi/v1/inviteCustomer",
+            "http://dev.plugsity.com/plugisty/avi/v1/inviteCustomer",
             object)
             .then((data) => {
               // Display Modal
@@ -445,7 +445,7 @@ function handleMobileSubmit() {
 
     const validateData = data;
     postData(
-      "http://ec2-3-95-240-121.compute-1.amazonaws.com/plugisty/avi/v1/inviteCustomer",
+      "http://dev.plugsity.com/plugisty/avi/v1/inviteCustomer",
       data
     )
       .then((data) => {
