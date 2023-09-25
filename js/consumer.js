@@ -198,7 +198,7 @@ function handleSubmit() {
 
     console.log("isFormValid", data);
     postData(
-      "http://dev.plugsity.com/plugisty/avi/v1/saveCustomer",
+      "https://dev.plugsity.com/plugisty/avi/v1/saveCustomer",
       data
     )
       .then((data) => {
@@ -267,7 +267,7 @@ function handleContactForm() {
     };
     console.log("isFormValid", data);
     postData(
-        "http://dev.plugsity.com/plugisty/avi/v1/saveContactUs",
+        "https://dev.plugsity.com/plugisty/avi/v1/saveContactUs",
         data
     )
         .then((data) => {

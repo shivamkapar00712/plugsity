@@ -220,7 +220,7 @@ function handleSubmit() {
 
     console.log("isFormValid", data);
     postData(
-        "http://dev.plugsity.com/plugisty/avi/v1/saveBusinessUser",
+        "https://dev.plugsity.com/plugisty/avi/v1/saveBusinessUser",
       // "https://plugisty-api.onrender.com/plugisty/avi/v1/saveBusinessUser",
       data
     )
@@ -277,7 +277,7 @@ function handleContactForm() {
     };
     console.log("isFormValid", data);
     postData(
-      "http://dev.plugsity.com/plugisty/avi/v1/saveContactUs",
+      "https://dev.plugsity.com/plugisty/avi/v1/saveContactUs",
       data
     )
       .then((data) => {

@@ -308,7 +308,7 @@ function handleSubmit() {
     // zipCode.value = "";
     console.log("isFormValid", data);
     postData(
-      "http://dev.plugsity.com/plugisty/avi/v1/inviteCustomer",
+      "https://dev.plugsity.com/plugisty/avi/v1/inviteCustomer",
       data
     )
       .then((data) => {
@@ -388,7 +388,7 @@ function handleMobileSubmit() {
 
     const validateData = data;
     postData(
-      "http://dev.plugsity.com/plugisty/avi/v1/inviteCustomer",
+      "https://dev.plugsity.com/plugisty/avi/v1/inviteCustomer",
       data
     )
       .then((data) => {
