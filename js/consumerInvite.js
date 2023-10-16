@@ -292,7 +292,7 @@ function handleSubmit() {
       lastName: lastName.value.trim(),
       email: emailEl.value.trim(),
       phoneNumber: phoneEl.value.trim(),
-      zipCode: zipCode.value.trim(),
+      zipCode: null,
       // isRegistered: false,
       userRefKey: localStorage.getItem("*&#0__2t@m")
         ? localStorage.getItem("*&#0__2t@m")
@@ -379,7 +379,8 @@ function handleMobileSubmit() {
       lastName: lastNameMobile.value.trim(),
       email: emailMobileEl.value.trim(),
       phoneNumber: phoneMobileEl.value.trim(),
-      zipCode: zipCodeMobile.value.trim(),
+      // zipCode: zipCodeMobile.value.trim(),
+      zipCode: null,
       // isRegistered: false,
       userRefKey: localStorage.getItem("*&#0__2t@m")
         ? localStorage.getItem("*&#0__2t@m")

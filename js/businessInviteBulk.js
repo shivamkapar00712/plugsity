@@ -33,11 +33,9 @@ document.getElementById("fileUploader").addEventListener("change", (event) => {
       e += "<thead>";
       e += " <tr>";
       e += "  <th>Business name</th>";
-      e += "  <th>Website</th>";
       e += "   <th>Email address</th>";
       e += "   <th>Phone number</th>";
-      e += "   <th>Address</th>";
-      e += "   <th>Social Media</th>";
+      e += "  <th>Website</th>";
       e += "  </tr>";
       e += "</thead>";
       for (var y = 0; y < jsonArr.length; y++) {
@@ -46,10 +44,7 @@ document.getElementById("fileUploader").addEventListener("change", (event) => {
           "<td class='success' style='width: 238px'>" +
             jsonArr[y].businessName +
           "</td>";
-        e +=
-          "<td class='success' style='width: 238px'>" +
-            jsonArr[y].website +
-          "</td>";
+        
         e +=
           "<td class='success' style='width: 238px'>" +
             jsonArr[y].email +
@@ -60,12 +55,9 @@ document.getElementById("fileUploader").addEventListener("change", (event) => {
           "</td>";
         e +=
           "<td class='success' style='width: 238px'>" +
-            jsonArr[y].address +
+            jsonArr[y].website +
           "</td>";
-        e +=
-          "<td class='success' style='width: 238px'>" +
-            jsonArr[y].socialMedia +
-          "</td>";
+        
         e += "<tr>";
       }
       e += "<tbody/>";
@@ -84,14 +76,14 @@ const firstName = document.querySelector("#firstName");
 const lastName = document.querySelector("#lastName");
 const emailEl = document.querySelector("#email");
 const phoneEl = document.querySelector("#phone");
-const zipCode = document.querySelector("#zipCode");
+// const zipCode = document.querySelector("#zipCode");
 
 const businessNameMobileEl = document.querySelector("#businessNameMobile");
 const businessWebsiteMobile = document.querySelector("#businessWebsiteMobile");
 const businessEmailMobileEl = document.querySelector("#businessEmailMobile");
 const businessPhoneMobileEl = document.querySelector("#businessMobile");
-const businessAddressMobileEl = document.querySelector("#businessAddMobile");
-const businessSocialMobileEl = document.querySelector("#businessSocialMobile");
+// const businessAddressMobileEl = document.querySelector("#businessAddMobile");
+// const businessSocialMobileEl = document.querySelector("#businessSocialMobile");
 
 const form = document.querySelector("#consumerInvite");
 const contactForm = document.querySelector("#businessMobileInvite");
@@ -327,9 +319,6 @@ const  handleSubmit =  () => {
       : null,
   }));
 
-  console.log("newArr::", newArr);
-
-
   // newArr.forEach((object) => {
   //   callApiForObject(object);
   // });
@@ -347,7 +336,11 @@ const  handleSubmit =  () => {
                 $("#preloder").fadeOut();
                 $("#modal-data").html(data.Response.message) ;
                 $("#modal-2").modal("show");
-                location.href = "business-invite.html";
+                if(localStorage.getItem('isBusiness') == 'true'){
+                  location.href = "business-invite.html";
+                }else{
+                  location.href = "consumer-invite.html";
+                }
               }else if(data.Response.status == 302){
                 $("#preloder").fadeOut();
                 $("#modal-data").html(data.Response.message) ;
@@ -394,14 +387,14 @@ function handleMobileSubmit() {
   let isLastnameValid = checkLastnameMobile();
   let isEmailValid = checkEmailMobile();
   let isPhoneValid = checkPhoneMobile();
-  let isAddressValid = checkAddressMobile();
 
   let isFormValid =
     isUsernameValid &&
     isEmailValid &&
     isLastnameValid &&
-    isPhoneValid &&
-    isAddressValid;
+    isPhoneValid;
+    // &&
+    // isAddressValid;
 
   // submit to the server if the form is valid
   if (isFormValid) {
@@ -412,8 +405,6 @@ function handleMobileSubmit() {
       website: businessWebsiteMobile.value.trim(),
       email: businessEmailMobileEl.value.trim(),
       phoneNumber: businessPhoneMobileEl.value.trim(),
-      socialMedia: businessSocialMobileEl.value.trim(),
-      address: businessAddressMobileEl.value.trim(),
       isRegistered: false,
       userRefKey: localStorage.getItem("*&#0__2t@m")
         ? localStorage.getItem("*&#0__2t@m")
@@ -434,12 +425,15 @@ function handleMobileSubmit() {
           businessWebsiteMobile.value = "";
           businessEmailMobileEl.value = "";
           businessPhoneMobileEl.value = "";
-          businessAddressMobileEl.value = "";
-          businessSocialMobileEl.value = "";
 
           $("#preloder").fadeOut();
           $("#modal-data").html(data.Response.message) ;
           $("#modal-2").modal("show");
+          if(localStorage.getItem('isBusiness') == 'true'){
+            location.href = "business-invite.html";
+          }else{
+            location.href = "consumer-invite.html";
+          }
         }else if(data.Response.status == 302){
           $("#preloder").fadeOut();
           $("#modal-data").html(data.Response.message) ;

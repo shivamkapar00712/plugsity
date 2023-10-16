@@ -36,7 +36,6 @@ document.getElementById("fileUploader").addEventListener("change", (event) => {
       e += "  <th>Last name</th>";
       e += "    <th>Email address</th>";
       e += "   <th>Phone number</th>";
-      e += "   <th>Zipcode</th>";
       e += "  </tr>";
       e += "</thead>";
       for (var y = 0; y < jsonArr.length; y++) {
@@ -57,10 +56,6 @@ document.getElementById("fileUploader").addEventListener("change", (event) => {
           "<td class='success' style='width: 238px'>" +
             jsonArr[y].phoneNumber +
           "</td>";
-        e +=
-          "<td class='success' style='width: 238px'>" +
-            jsonArr[y].zipCode +
-          "</td>";
         e += "<tr>";
       }
       e += "<tbody/>";
@@ -79,13 +74,13 @@ const firstName = document.querySelector("#firstName");
 const lastName = document.querySelector("#lastName");
 const emailEl = document.querySelector("#email");
 const phoneEl = document.querySelector("#phone");
-const zipCode = document.querySelector("#zipCode");
+// const zipCode = document.querySelector("#zipCode");
 
 const firstNameMobile = document.querySelector("#firstNameMobile");
 const lastNameMobile = document.querySelector("#lastNameMobile");
 const emailMobileEl = document.querySelector("#emailMobile");
 const phoneMobileEl = document.querySelector("#phoneMobile");
-const zipCodeMobile = document.querySelector("#zipCodeMobile");
+// const zipCodeMobile = document.querySelector("#zipCodeMobile");
 
 const form = document.querySelector("#consumerInvite");
 const contactForm = document.querySelector("#consumerMobileInvite");
@@ -379,7 +374,11 @@ const handleSubmit = () => {
                 $("#preloder").fadeOut();
                 $("#modal-data").html(data.Response.message) ;
                 $("#modal-2").modal("show");
-                location.href = "consumer-invite.html";
+                if(localStorage.getItem('isBusiness') == 'true'){
+                  location.href = "business-invite.html";
+                }else{
+                  location.href = "consumer-invite.html";
+                }
               }else if(data.Response.status == 302){
                 $("#preloder").fadeOut();
                 $("#modal-data").html(data.Response.message) ;
@@ -436,7 +435,7 @@ function handleMobileSubmit() {
       lastName: lastNameMobile.value.trim(),
       email: emailMobileEl.value.trim(),
       phoneNumber: phoneMobileEl.value.trim(),
-      zipCode: zipCodeMobile.value.trim(),
+      // zipCode: zipCodeMobile.value.trim(),
       isRegistered: false,
       userRefKey: localStorage.getItem("*&#0__2t@m")
         ? localStorage.getItem("*&#0__2t@m")
@@ -457,12 +456,18 @@ function handleMobileSubmit() {
           lastNameMobile.value = "";
           emailMobileEl.value = "";
           phoneMobileEl.value = "";
-          zipCodeMobile.value = "";
+          // zipCodeMobile.value = "";
 
           $("#preloder").fadeOut();
           $("#modal-data").html(data.Response.message) ;
           $("#modal-2").modal("show");
-          location.href = "consumer-invite.html";
+
+          if(localStorage.getItem('isBusiness') == 'true'){
+            location.href = "business-invite.html";
+          }else{
+            location.href = "consumer-invite.html";
+          }
+
         }else if(data.Response.status == 302){
           $("#preloder").fadeOut();
           $("#modal-data").html(data.Response.message) ;

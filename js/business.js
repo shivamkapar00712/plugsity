@@ -149,6 +149,44 @@ const checkContactEmail = () => {
   return valid;
 };
 
+const checkContactMessage = () => {
+  let valid = false;
+  const min = 10,
+    max = 500;
+  const username = messageContact.value.trim();
+  if (!isRequired(username)) {
+    showError(messageContact, "Message cannot be blank.");
+  } else if (!isBetween(username.length, min, max)) {
+    showError(
+      messageContact,
+      `message must be between ${min} and ${max} characters.`
+    );
+  } else {
+    showSuccess(messageContact);
+    valid = true;
+  }
+  return valid;
+};
+
+const checkContactSubject= () => {
+  let valid = false;
+  const min = 10,
+    max = 500;
+  const username = subject.value.trim();
+  if (!isRequired(username)) {
+    showError(subject, "Subject cannot be blank.");
+  } else if (!isBetween(username.length, min, max)) {
+    showError(
+      subject,
+      `Subject must be between ${min} and ${max} characters.`
+    );
+  } else {
+    showSuccess(subject);
+    valid = true;
+  }
+  return valid;
+};
+
 const isEmailValid = (email) => {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
@@ -227,7 +265,6 @@ function handleSubmit() {
       .then((data) => {
         // Display Modal
         console.log("response", data); // JSON data parsed by `data.json()` call
-
         if(data.Response.status == 200){
           firstName.value = "";
           lastName.value = "";
@@ -263,7 +300,9 @@ function handleContactForm() {
   let isUsernameValid = checkContactFirstname();
   let isLastnameValid = checkContactLastname();
   let isEmailValid = checkContactEmail();
-  let isFormValid = isUsernameValid && isEmailValid && isLastnameValid;
+  let isMessageValid = checkContactMessage();
+  let isSubjectValid = checkContactSubject();
+  let isFormValid = isUsernameValid && isEmailValid && isLastnameValid && isMessageValid && isSubjectValid;
   // submit to the server if the form is valid
   if (isFormValid) {
     $("#preloder").fadeIn();
@@ -340,7 +379,13 @@ contactForm.addEventListener(
       case "emailContact":
         checkContactEmail();
         break;
-    }
+      case "subject":
+        checkContactSubject();
+        break; 
+      case "messageContact":
+        checkContactMessage();
+        break;    
+  }
   })
 );
 

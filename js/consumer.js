@@ -120,6 +120,46 @@ const checkContactLastname = () => {
   return valid;
 };
 
+const checkContactMessage = () => {
+  let valid = false;
+  const min = 10,
+    max = 500;
+  const username = messageContact.value.trim();
+  if (!isRequired(username)) {
+    showError(messageContact, "Message cannot be blank.");
+  } else if (!isBetween(username.length, min, max)) {
+    showError(
+      messageContact,
+      `message must be between ${min} and ${max} characters.`
+    );
+  } else {
+    showSuccess(messageContact);
+    valid = true;
+  }
+  return valid;
+};
+
+const checkContactSubject= () => {
+  let valid = false;
+  const min = 10,
+    max = 500;
+  const username = subject.value.trim();
+  if (!isRequired(username)) {
+    showError(subject, "Subject cannot be blank.");
+  } else if (!isBetween(username.length, min, max)) {
+    showError(
+      subject,
+      `Subject must be between ${min} and ${max} characters.`
+    );
+  } else {
+    showSuccess(subject);
+    valid = true;
+  }
+  return valid;
+};
+
+
+
 const checkContactEmail = () => {
   let valid = false;
   const email = emailContact.value.trim();
@@ -204,17 +244,6 @@ function handleSubmit() {
       .then((data) => {
         // Display Modal
         console.log("response", data); // JSON data parsed by `data.json()` call
-        // firstName.value = "";
-        // lastName.value = "";
-        // emailEl.value = "";
-        // phoneEl.value = "";
-        // messageEl.value = "";
-        // $("modal-3").modal("show");
-        // $("#preloder").fadeOut();
-        // localStorage.setItem("isBusiness", false);
-        // localStorage.setItem("*&#0__2t@m", data.id);
-        // // location.href = "http://www.example.com/ThankYou.html"
-        // window.location = "thankyou.html";
 
         if(data.Response.status == 200){
           firstName.value = "";
@@ -253,7 +282,9 @@ function handleContactForm() {
   let isUsernameValid = checkContactFirstname();
   let isLastnameValid = checkContactLastname();
   let isEmailValid = checkContactEmail();
-  let isFormValid = isUsernameValid && isEmailValid && isLastnameValid;
+  let isMessageValid = checkContactMessage();
+  let isSubjectValid = checkContactSubject();
+  let isFormValid = isUsernameValid && isEmailValid && isLastnameValid && isMessageValid && isSubjectValid;
   // submit to the server if the form is valid
   if (isFormValid) {
     $("#preloder").fadeIn();
@@ -272,9 +303,7 @@ function handleContactForm() {
     )
         .then((data) => {
           $("#modal-1").modal("hide");
-
           if(data.Response.status == 200){
-
             $("#preloder").fadeOut();
             handleCancel();
             $("#modal-data").html("Thanks for contact us we will revert you soon") ;
@@ -282,22 +311,16 @@ function handleContactForm() {
           }else{
             $("#preloder").fadeOut();
             handleCancel();
-
             $("#modal-data").html(data.Response.message) ;
             $("#modal-2").modal("show");
           }
-
-
         })
         .catch((err) => {
-
           $("#preloder").fadeOut();
           handleCancel();
           $("#modal-1").modal("hide");
           $("#modal-data").html("Something went wrong please try again later") ;
           $("#modal-2").modal("show");
-
-
           console.log(err);
         });
   }
@@ -331,6 +354,12 @@ contactForm.addEventListener(
       case "emailContact":
         checkContactEmail();
         break;
+      case "subject":
+        checkContactSubject();
+        break; 
+      case "messageContact":
+        checkContactMessage();
+        break;     
     }
   })
 );

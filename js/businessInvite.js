@@ -2,15 +2,15 @@ const firstName = document.querySelector("#businessName");
 const lastName = document.querySelector("#website");
 const emailEl = document.querySelector("#email");
 const phoneEl = document.querySelector("#phone");
-const address = document.querySelector("#address");
-const social = document.querySelector("#social");
+// const address = document.querySelector("#address");
+// const social = document.querySelector("#social");
 
 const businessNameMobileEl = document.querySelector("#businessNameMobile");
 const businessWebsiteMobile = document.querySelector("#businessWebsiteMobile");
 const businessEmailMobileEl = document.querySelector("#businessEmailMobile");
 const businessPhoneMobileEl = document.querySelector("#businessMobile");
-const businessAddressMobileEl = document.querySelector("#businessAddMobile");
-const businessSocialMobileEl = document.querySelector("#businessSocialMobile");
+// const businessAddressMobileEl = document.querySelector("#businessAddMobile");
+// const businessSocialMobileEl = document.querySelector("#businessSocialMobile");
 
 const form = document.querySelector("#businessInvite");
 const contactForm = document.querySelector("#businessMobileInvite");
@@ -146,23 +146,23 @@ const checkLastname = () => {
   return valid;
 };
 
-const checkAddress = () => {
-  let valid = false;
-  const min = 3,
-    max = 50;
-  const username = address.value.trim();
-  if (!isRequired(username)) {
-    showError(address, "Address cannot be blank.");
-  }
-  // else if (!isBetween(username.length, min, max)) {
-  //   showError(address, `Address must be between ${min} and ${max} characters.`);
-  // } else
-  else {
-    showSuccess(address);
-    valid = true;
-  }
-  return valid;
-};
+// const checkAddress = () => {
+//   let valid = false;
+//   const min = 3,
+//     max = 50;
+//   const username = address.value.trim();
+//   if (!isRequired(username)) {
+//     showError(address, "Address cannot be blank.");
+//   }
+//   // else if (!isBetween(username.length, min, max)) {
+//   //   showError(address, `Address must be between ${min} and ${max} characters.`);
+//   // } else
+//   else {
+//     showSuccess(address);
+//     valid = true;
+//   }
+//   return valid;
+// };
 
 const checkPhone = () => {
   let valid = false;
@@ -306,14 +306,7 @@ function display_array() {
       "<td class='success' style='width: 238px'>" +
       array[y].phoneNumber +
       "</td>";
-    e +=
-      "<td class='success' style='width: 238px'>" +
-      array[y].address +
-      "</td>";
-    e +=
-      "<td class='success' style='width: 238px'>" +
-      array[y].socialMedia +
-      "</td>";
+
     e += "<tr>";
   }
   e += "<tbody/>";
@@ -339,7 +332,7 @@ function handleSubmit() {
   let isLastnameValid = checkLastname();
   let isEmailValid = checkEmail();
   let isPhoneValid = checkPhone();
-  let isAddressValid = checkAddress();
+  // let isAddressValid = checkAddress();
 
   // var code = $("#phone").intlTelInput("getSelectedCountryData").dialCode;
   var phoneNumber = $("#phone").val();
@@ -351,9 +344,7 @@ function handleSubmit() {
     isUsernameValid &&
     isEmailValid &&
     isLastnameValid &&
-    isPhoneValid &&
-    isAddressValid;
-
+    isPhoneValid
   // submit to the server if the form is valid
   if (isFormValid) {
     $("#preloder").fadeIn();
@@ -363,8 +354,8 @@ function handleSubmit() {
       website: lastName.value.trim(),
       email: emailEl.value.trim(),
       phoneNumber: phoneEl.value.trim(),
-      socialMedia: social.value.trim(),
-      address: address.value.trim(),
+      // socialMedia: social.value.trim(),
+      // address: address.value.trim(),
       // zipCode: zipCode.value.trim(),
       isRegistered: false,
       userRefKey: localStorage.getItem("*&#0__2t@m")
@@ -388,23 +379,6 @@ function handleSubmit() {
         // Display Modal
         console.log("response", data); // JSON data parsed by `data.json()` call
 
-        // if (data.status != 200) {
-        //   // if(data.errors.BusinessEmail)
-        //   alert("Something went wrong please try again");
-        // } else {
-        //   firstName.value = "";
-        //   lastName.value = "";
-        //   emailEl.value = "";
-        //   phoneEl.value = "";
-        //   address.value = "";
-        //   social.value = "";
-        //   // zipCode.value = "";
-        //   array.push(validateData);
-        //   display_array();
-        //   $("#preloder").fadeOut();
-        // }
-
-
         if(data.Response.status == 200){
           console.log("inside :::::123213")
 
@@ -412,9 +386,6 @@ function handleSubmit() {
           lastName.value = "";
           emailEl.value = "";
           phoneEl.value = "";
-          address.value = "";
-          social.value = "";
-
 
           array.push(validateData);
           display_array();
@@ -422,36 +393,14 @@ function handleSubmit() {
           $("#modal-data").html(data.Response.message) ;
           $("#modal-2").modal("show");
         }else if(data.Response.status == 302){
-          console.log("inside :::::")
           $("#preloder").fadeOut();
           $("#modal-data").html(data.Response.message) ;
           $("#modal-2").modal("show");
         }else{
-          console.log("inside:::::1")
           $("#preloder").fadeOut();
           $("#modal-data").html(data.Response.message) ;
           $("#modal-2").modal("show");
         }
-
-        // if (data.errors) {
-        //   firstName.value = "";
-        //   lastName.value = "";
-        //   emailEl.value = "";
-        //   phoneEl.value = "";
-        //   address.value = "";
-        //   social.value = "";
-        //   // zipCode.value = "";
-        //   array.push(validateData);
-        //   display_array();
-        //   $("#preloder").fadeOut();
-        // }
-
-        // $("modal-3").modal("show");
-        // $("#preloder").fadeOut();
-        // localStorage.setItem("isBusiness", false);
-        // localStorage.setItem("*&#0__2t@m", data.id);
-        // location.href = "http://www.example.com/ThankYou.html"
-        // window.location = "thankyou.html";
       })
       .catch((err) => {
         array = [];
@@ -475,14 +424,13 @@ function handleMobileSubmit() {
   let isLastnameValid = checkLastnameMobile();
   let isEmailValid = checkEmailMobile();
   let isPhoneValid = checkPhoneMobile();
-  let isAddressValid = checkAddressMobile();
+  // let isAddressValid = checkAddressMobile();
 
   let isFormValid =
     isUsernameValid &&
     isEmailValid &&
     isLastnameValid &&
-    isPhoneValid &&
-    isAddressValid;
+    isPhoneValid
 
   // submit to the server if the form is valid
   if (isFormValid) {
@@ -493,8 +441,8 @@ function handleMobileSubmit() {
       website: businessWebsiteMobile.value.trim(),
       email: businessEmailMobileEl.value.trim(),
       phoneNumber: businessPhoneMobileEl.value.trim(),
-      socialMedia: businessSocialMobileEl.value.trim(),
-      address: businessAddressMobileEl.value.trim(),
+      // socialMedia: businessSocialMobileEl.value.trim(),
+      // address: businessAddressMobileEl.value.trim(),
       isRegistered: false,
       userRefKey: localStorage.getItem("*&#0__2t@m")
         ? localStorage.getItem("*&#0__2t@m")
@@ -519,8 +467,8 @@ function handleMobileSubmit() {
           businessWebsiteMobile.value = "";
           businessEmailMobileEl.value = "";
           businessPhoneMobileEl.value = "";
-          businessAddressMobileEl.value = "";
-          businessSocialMobileEl.value = "";
+          // businessAddressMobileEl.value = "";
+          // businessSocialMobileEl.value = "";
 
 
           // array.push(validateData);
@@ -635,9 +583,6 @@ form.addEventListener(
       case "phone":
         checkPhone();
         break;
-      case "address":
-        checkAddress();
-        break;
     }
   })
 );
@@ -657,9 +602,6 @@ contactForm.addEventListener(
         break;
       case "businessMobile":
         checkPhoneMobile();
-        break;
-      case "businessAddMobile":
-        checkAddressMobile();
         break;
     }
   })

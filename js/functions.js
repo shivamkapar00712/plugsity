@@ -32,19 +32,11 @@ $(document).ready(function () {
   });
 
   $(".next-btn").on("click", function (event) {
-    console.log("click on next");
-    if (localStorage.getItem("isBusiness")) {
+    if (localStorage.getItem("isBusiness") === 'true') {
       window.location = "business-invite.html";
     } else {
       window.location = "consumer-invite.html";
     }
-    // var target = $(this.getAttribute('href'));
-    // if (target.length) {
-    //   event.preventDefault();
-    //   $('html, body').animate({
-    //     scrollTop: target.offset().top
-    //   }, 1000);
-    // }
   });
 });
 

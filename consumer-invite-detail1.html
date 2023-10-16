@@ -40,7 +40,7 @@
     </header>
     <!-- Header Ends Here -->
     <!-- Invite Section Starts Here -->
-    <section class="pad-top-40 pad-bot-40 d-none d-sm-block">
+    <section class="pad-top-100 pad-bot-40 d-none d-sm-block">
       <div class="container">
         <div class="row">
           <div class="col-md-12 col-lg-12 col-sm-12 col-12">
@@ -74,7 +74,7 @@
                         <th>Last name</th>
                         <th>Email address</th>
                         <th>Phone number</th>
-                        <th>Zipcode</th>
+                        <!-- <th>Zipcode</th> -->
                       </tr>
                     </thead>
                     <tbody>
@@ -121,7 +121,7 @@
                           />
                           <small></small>
                         </td>
-                        <td>
+                        <!-- <td>
                           <input
                             id="zipCode"
                             type="text"
@@ -130,7 +130,7 @@
                             name="zipCode"
                           />
                           <small></small>
-                        </td>
+                        </td> -->
                       </tr>
                       <!-- <tr id="tableData"></tr> -->
                     </tbody>
@@ -177,7 +177,7 @@
     </section>
     <!-- Invite Section Starts Here -->
     <!-- Mobile Section Only -->
-    <section class="pad-top-20 pad-bot-40 d-lg-none d-md-none gradient-sec2">
+    <section class="pad-top-80 pad-bot-40 d-lg-none d-md-none gradient-sec2">
       <div class="container">
         <div class="block-element3 m-b-25">
           <div class="shop-head">
@@ -232,13 +232,14 @@
                   id="phoneMobile"
                   name="phone"
                   type="number"
+                  placeholder="Enter Phone Number"
                   class="field-style3"
                   oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                   maxlength="12"
                 />
                 <small></small>
               </div>
-              <div class="form-field3 m-b-35">
+              <!-- <div class="form-field3 m-b-35">
                 <label> Zipcode <span> (optional) </span> </label>
                 <input
                   id="zipCodeMobile"
@@ -248,7 +249,7 @@
                   class="field-style3"
                 />
                 <small></small>
-              </div>
+              </div> -->
               <div class="block-element3">
                 <button class="more-btn1">
                   <img src="images/plus-icon.svg" /> Add more customers
@@ -308,8 +309,10 @@
                             data-dismiss="modal"
                             aria-label="Close"
                     >
-                      Cancel
+                      Close
                     </button>
+                    <a href="consumer.html" class="custom-btn10 standard-btn" role="button" data-bs-toggle="button">Back to Homepage</a>
+
                   </div>
                 </div>
               </div>
