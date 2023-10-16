@@ -126,7 +126,6 @@ const checkLastnameMobile = () => {
 
 const checkPhoneMobile = () => {
   let valid = false;
-
   const phone = phoneMobileEl.value.trim();
   if (!isRequired(phone)) {
     showError(phoneMobileEl, "phone number cannot be blank.");
@@ -219,60 +218,6 @@ const checkEmail = (val) => {
   }
   return valid;
 };
-
-// Check Validation for contact form
-
-// const checkContactFirstname = () => {
-//   let valid = false;
-//   const min = 3,
-//     max = 25;
-//   const username = firstNameContact.value.trim();
-//   if (!isRequired(username)) {
-//     showError(firstNameContact, "First name cannot be blank.");
-//   } else if (!isBetween(username.length, min, max)) {
-//     showError(
-//       firstNameContact,
-//       `First name must be between ${min} and ${max} characters.`
-//     );
-//   } else {
-//     showSuccess(firstNameContact);
-//     valid = true;
-//   }
-//   return valid;
-// };
-
-// const checkContactLastname = () => {
-//   let valid = false;
-//   const min = 3,
-//     max = 25;
-//   const username = lastNameContact.value.trim();
-//   if (!isRequired(username)) {
-//     showError(lastNameContact, "Lastname cannot be blank.");
-//   } else if (!isBetween(username.length, min, max)) {
-//     showError(
-//       lastNameContact,
-//       `Lastname must be between ${min} and ${max} characters.`
-//     );
-//   } else {
-//     showSuccess(lastNameContact);
-//     valid = true;
-//   }
-//   return valid;
-// };
-
-// const checkContactEmail = () => {
-//   let valid = false;
-//   const email = emailContact.value.trim();
-//   if (!isRequired(email)) {
-//     showError(emailContact, "Email cannot be blank.");
-//   } else if (!isEmailValid(email)) {
-//     showError(emailContact, "Email is not valid.");
-//   } else {
-//     showSuccess(emailContact);
-//     valid = true;
-//   }
-//   return valid;
-// };
 
 const isEmailValid = (email) => {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

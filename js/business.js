@@ -238,7 +238,6 @@ function handleSubmit() {
     isUsernameValid &&
     isEmailValid &&
     isBusinessValid &&
-    isBusinessValid &&
     isLastnameValid &&
     isPhoneValid;
 

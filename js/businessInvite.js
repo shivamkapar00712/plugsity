@@ -461,7 +461,6 @@ function handleMobileSubmit() {
 
 
         if(data.Response.status == 200){
-          console.log("inside :::::123213")
 
           businessNameMobileEl.value = "";
           businessWebsiteMobile.value = "";
@@ -499,43 +498,6 @@ function handleMobileSubmit() {
   }
 }
 
-// function handleContactForm() {
-//   //  validate fields
-//   let isUsernameValid = checkContactFirstname();
-//   let isLastnameValid = checkContactLastname();
-//   let isEmailValid = checkContactEmail();
-//   let isFormValid = isUsernameValid && isEmailValid && isLastnameValid;
-//   // submit to the server if the form is valid
-//   if (isFormValid) {
-//     $("#preloder").fadeIn();
-//     let data = {
-//       firstName: firstNameContact.value.trim(),
-//       lastName: lastNameContact.value.trim(),
-//       email: emailContact.value.trim(),
-//       subject: subject.value.trim(),
-//       message: messageContact.value.trim(),
-//     };
-//     console.log("isFormValid", data);
-//     postData(
-//       "https://plugsity.herokuapp.com/api/ContactUs",
-//       data
-//     )
-//       .then((data) => {
-//         $("#preloder").fadeOut();
-//         handleCancel();
-//         $("#modal-1").modal("hide");
-//         console.log("response", data); // JSON data parsed by `data.json()` call
-//       })
-//       .catch((err) => {
-//         $("#preloder").fadeOut();
-//         handleCancel();
-//         $("#modal-1").modal("hide");
-
-//         console.log(err);
-//       });
-//   }
-// }
-
 const debounce = (fn, delay = 500) => {
   let timeoutId;
   return (...args) => {
@@ -550,22 +512,7 @@ const debounce = (fn, delay = 500) => {
   };
 };
 
-// contactForm.addEventListener(
-//   "input",
-//   debounce(function (e) {
-//     switch (e.target.id) {
-//       case "firstNameContact":
-//         checkContactFirstname();
-//         break;
-//       case "lastNameContact":
-//         checkContactLastname();
-//         break;
-//       case "emailContact":
-//         checkContactEmail();
-//         break;
-//     }
-//   })
-// );
+
 
 form.addEventListener(
   "input",

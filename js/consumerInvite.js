@@ -292,8 +292,8 @@ function handleSubmit() {
       lastName: lastName.value.trim(),
       email: emailEl.value.trim(),
       phoneNumber: phoneEl.value.trim(),
-      zipCode: null,
-      // isRegistered: false,
+      // zipCode: null,
+      isRegistered: false,
       userRefKey: localStorage.getItem("*&#0__2t@m")
         ? localStorage.getItem("*&#0__2t@m")
         : null,
@@ -321,10 +321,12 @@ function handleSubmit() {
           lastName.value = "";
           emailEl.value = "";
           phoneEl.value = "";
-          zipCode.value = "";
+          // zipCode.value = "";
           array.push(validateData);
           display_array();
           $("#preloder").fadeOut();
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
         }else if(data.Response.status == 302){
           console.log("inside :::::")
           $("#preloder").fadeOut();
@@ -380,8 +382,8 @@ function handleMobileSubmit() {
       email: emailMobileEl.value.trim(),
       phoneNumber: phoneMobileEl.value.trim(),
       // zipCode: zipCodeMobile.value.trim(),
-      zipCode: null,
-      // isRegistered: false,
+      // zipCode: null,
+      isRegistered: false,
       userRefKey: localStorage.getItem("*&#0__2t@m")
         ? localStorage.getItem("*&#0__2t@m")
         : null,
@@ -404,10 +406,14 @@ function handleMobileSubmit() {
           lastName.value = "";
           emailEl.value = "";
           phoneEl.value = "";
-          zipCode.value = "";
+          // zipCode.value = "";
           // array.push(validateData);
           // display_array();
           $("#preloder").fadeOut();
+
+          $("#modal-data").html(data.Response.message) ;
+          $("#modal-2").modal("show");
+
         }else if(data.Response.status == 302){
           console.log("inside :::::")
           $("#preloder").fadeOut();
@@ -419,8 +425,6 @@ function handleMobileSubmit() {
           $("#modal-data").html(data.Response.message) ;
           $("#modal-2").modal("show");
         }
-
-
       })
       .catch((err) => {
         $("#modal-2").modal("show");
@@ -429,43 +433,6 @@ function handleMobileSubmit() {
       });
   }
 }
-
-// function handleContactForm() {
-//   //  validate fields
-//   let isUsernameValid = checkContactFirstname();
-//   let isLastnameValid = checkContactLastname();
-//   let isEmailValid = checkContactEmail();
-//   let isFormValid = isUsernameValid && isEmailValid && isLastnameValid;
-//   // submit to the server if the form is valid
-//   if (isFormValid) {
-//     $("#preloder").fadeIn();
-//     let data = {
-//       firstName: firstNameContact.value.trim(),
-//       lastName: lastNameContact.value.trim(),
-//       email: emailContact.value.trim(),
-//       subject: subject.value.trim(),
-//       message: messageContact.value.trim(),
-//     };
-//     console.log("isFormValid", data);
-//     postData(
-//       "https://plugsity.herokuapp.com/api/ContactUs",
-//       data
-//     )
-//       .then((data) => {
-//         $("#preloder").fadeOut();
-//         handleCancel();
-//         $("#modal-1").modal("hide");
-//         console.log("response", data); // JSON data parsed by `data.json()` call
-//       })
-//       .catch((err) => {
-//         $("#preloder").fadeOut();
-//         handleCancel();
-//         $("#modal-1").modal("hide");
-
-//         console.log(err);
-//       });
-//   }
-// }
 
 const debounce = (fn, delay = 500) => {
   let timeoutId;
@@ -481,22 +448,6 @@ const debounce = (fn, delay = 500) => {
   };
 };
 
-// contactForm.addEventListener(
-//   "input",
-//   debounce(function (e) {
-//     switch (e.target.id) {
-//       case "firstNameContact":
-//         checkContactFirstname();
-//         break;
-//       case "lastNameContact":
-//         checkContactLastname();
-//         break;
-//       case "emailContact":
-//         checkContactEmail();
-//         break;
-//     }
-//   })
-// );
 
 form.addEventListener(
   "input",
