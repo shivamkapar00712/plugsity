@@ -1,9 +1,9 @@
-const firstName = document.querySelector("#businessName");
-const lastName = document.querySelector("#website");
+const businessName = document.querySelector("#businessName");
+const website = document.querySelector("#website");
 const emailEl = document.querySelector("#email");
 const phoneEl = document.querySelector("#phone");
-// const address = document.querySelector("#address");
-// const social = document.querySelector("#social");
+const countryCode = document.querySelector("#phone2");
+const phoneValid = document.querySelector("#phoneValid");
 
 const businessNameMobileEl = document.querySelector("#businessNameMobile");
 const businessWebsiteMobile = document.querySelector("#businessWebsiteMobile");
@@ -35,37 +35,30 @@ const checkUsernameMobile = () => {
   return valid;
 };
 
-const checkLastnameMobile = () => {
+const checkWebsiteMobile = () => {
+  
+
   let valid = false;
   const min = 3,
     max = 25;
   const username = businessWebsiteMobile.value.trim();
-
-  if (!isRequired(username)) {
-    showError(businessWebsiteMobile, "Website cannot be blank.");
-  } else if (!isValidURL(username)) {
+ if (username !== '' && !isValidURL(username)) {
     showError(businessWebsiteMobile, `Invalid url format.`);
   } else {
     showSuccess(businessWebsiteMobile);
     valid = true;
   }
-
   return valid;
 };
 
 const checkPhoneMobile = () => {
   let valid = false;
-
-  const phone = businessPhoneMobileEl.value.trim();
-  if (!isRequired(phone)) {
-    showError(businessPhoneMobileEl, "phone number cannot be blank.");
-  } else if (!isValidPhone(phone)) {
-    showError(businessPhoneMobileEl, `Phone number is not valid.`);
-  } else {
-    showSuccess(businessPhoneMobileEl);
+  const phone = businessPhoneMobileEl.value;
+  if(phone === 'true'){
     valid = true;
   }
   return valid;
+
 };
 
 const checkEmailMobile = (val) => {
@@ -82,38 +75,21 @@ const checkEmailMobile = (val) => {
   return valid;
 };
 
-const checkAddressMobile = () => {
-  let valid = false;
-  const min = 3,
-    max = 50;
-  const username = businessAddressMobileEl.value.trim();
-  if (!isRequired(username)) {
-    showError(businessAddressMobileEl, "Address cannot be blank.");
-  }
-  // else if (!isBetween(username.length, min, max)) {
-  //   showError(address, `Address must be between ${min} and ${max} characters.`);
-  // } else
-  else {
-    showSuccess(businessAddressMobileEl);
-    valid = true;
-  }
-  return valid;
-};
 
 const checkUsername = () => {
   let valid = false;
   const min = 3,
     max = 25;
-  const username = firstName.value.trim();
+  const username = businessName.value.trim();
   if (!isRequired(username)) {
-    showError(firstName, "Business cannot be blank.");
+    showError(businessName, "Business cannot be blank.");
   } else if (!isBetween(username.length, min, max)) {
     showError(
-      firstName,
+      businessName,
       `Business must be between ${min} and ${max} characters.`
     );
   } else {
-    showSuccess(firstName);
+    showSuccess(businessName);
     valid = true;
   }
   return valid;
@@ -130,50 +106,24 @@ const isValidURL = (urlString) => {
   ); // validate fragment locator
   return !!urlPattern.test(urlString);
 };
-const checkLastname = () => {
+const checkWebsite = () => {
   let valid = false;
   const min = 3,
     max = 25;
-  const username = lastName.value.trim();
-  if (!isRequired(username)) {
-    showError(lastName, "Website cannot be blank.");
-  } else if (!isValidURL(username)) {
-    showError(lastName, `Invalid url format.`);
+  const username = website.value.trim();
+ if (username !== '' && !isValidURL(username)) {
+    showError(website, `Invalid url format.`);
   } else {
-    showSuccess(lastName);
+    showSuccess(website);
     valid = true;
   }
   return valid;
 };
 
-// const checkAddress = () => {
-//   let valid = false;
-//   const min = 3,
-//     max = 50;
-//   const username = address.value.trim();
-//   if (!isRequired(username)) {
-//     showError(address, "Address cannot be blank.");
-//   }
-//   // else if (!isBetween(username.length, min, max)) {
-//   //   showError(address, `Address must be between ${min} and ${max} characters.`);
-//   // } else
-//   else {
-//     showSuccess(address);
-//     valid = true;
-//   }
-//   return valid;
-// };
-
 const checkPhone = () => {
   let valid = false;
-
-  const phone = phoneEl.value.trim();
-  if (!isRequired(phone)) {
-    showError(phoneEl, "phone number cannot be blank.");
-  } else if (!isValidPhone(phone)) {
-    showError(phoneEl, `Phone number is not valid.`);
-  } else {
-    showSuccess(phoneEl);
+  const phone = phoneValid.value;
+  if(phone === 'true'){
     valid = true;
   }
   return valid;
@@ -193,59 +143,7 @@ const checkEmail = (val) => {
   return valid;
 };
 
-// Check Validation for contact form
 
-// const checkContactFirstname = () => {
-//   let valid = false;
-//   const min = 3,
-//     max = 25;
-//   const username = firstNameContact.value.trim();
-//   if (!isRequired(username)) {
-//     showError(firstNameContact, "First name cannot be blank.");
-//   } else if (!isBetween(username.length, min, max)) {
-//     showError(
-//       firstNameContact,
-//       `First name must be between ${min} and ${max} characters.`
-//     );
-//   } else {
-//     showSuccess(firstNameContact);
-//     valid = true;
-//   }
-//   return valid;
-// };
-
-// const checkContactLastname = () => {
-//   let valid = false;
-//   const min = 3,
-//     max = 25;
-//   const username = lastNameContact.value.trim();
-//   if (!isRequired(username)) {
-//     showError(lastNameContact, "Lastname cannot be blank.");
-//   } else if (!isBetween(username.length, min, max)) {
-//     showError(
-//       lastNameContact,
-//       `Lastname must be between ${min} and ${max} characters.`
-//     );
-//   } else {
-//     showSuccess(lastNameContact);
-//     valid = true;
-//   }
-//   return valid;
-// };
-
-// const checkContactEmail = () => {
-//   let valid = false;
-//   const email = emailContact.value.trim();
-//   if (!isRequired(email)) {
-//     showError(emailContact, "Email cannot be blank.");
-//   } else if (!isEmailValid(email)) {
-//     showError(emailContact, "Email is not valid.");
-//   } else {
-//     showSuccess(emailContact);
-//     valid = true;
-//   }
-//   return valid;
-// };
 
 const isEmailValid = (email) => {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -294,10 +192,7 @@ function display_array() {
       "<td class='success' style='width: 238px'>" +
       array[y].businessName +
       "</td>";
-    e +=
-      "<td class='success' style='width: 238px'>" +
-      array[y].website +
-      "</td>";
+
     e +=
       "<td class='success' style='width: 238px'>" +
       array[y].email +
@@ -306,6 +201,10 @@ function display_array() {
       "<td class='success' style='width: 238px'>" +
       array[y].phoneNumber +
       "</td>";
+    e +=
+        "<td class='success' style='width: 238px'>" +
+        array[y].website +
+        "</td>";
 
     e += "<tr>";
   }
@@ -329,7 +228,7 @@ const handleRedirect = () => {
 function handleSubmit() {
   // validate fields
   let isUsernameValid = checkUsername();
-  let isLastnameValid = checkLastname();
+  let isWebsiteValid = checkWebsite();
   let isEmailValid = checkEmail();
   let isPhoneValid = checkPhone();
   // let isAddressValid = checkAddress();
@@ -342,21 +241,19 @@ function handleSubmit() {
 
   let isFormValid =
     isUsernameValid &&
-    isEmailValid &&
-    isLastnameValid &&
-    isPhoneValid
+    isWebsiteValid ||
+    (isEmailValid ||
+    isPhoneValid)
   // submit to the server if the form is valid
   if (isFormValid) {
     $("#preloder").fadeIn();
 
     let data = {
-      businessName: firstName.value.trim(),
-      website: lastName.value.trim(),
+      businessName: businessName.value.trim(),
+      website: website.value.trim(),
       email: emailEl.value.trim(),
       phoneNumber: phoneEl.value.trim(),
-      // socialMedia: social.value.trim(),
-      // address: address.value.trim(),
-      // zipCode: zipCode.value.trim(),
+      countryCode: countryCode.value,
       isRegistered: false,
       userRefKey: localStorage.getItem("*&#0__2t@m")
         ? localStorage.getItem("*&#0__2t@m")
@@ -365,11 +262,7 @@ function handleSubmit() {
 
     const validateData = data;
 
-    // firstName.value = "";
-    // lastName.value = "";
-    // emailEl.value = "";
-    // phoneEl.value = "";
-    // zipCode.value = "";
+
     console.log("isFormValid", data);
     postData(
       "https://dev.plugsity.com/plugisty/avi/v1/inviteBusinessUser",
@@ -378,12 +271,10 @@ function handleSubmit() {
       .then((data) => {
         // Display Modal
         console.log("response", data); // JSON data parsed by `data.json()` call
-
         if(data.Response.status == 200){
           console.log("inside :::::123213")
-
-          firstName.value = "";
-          lastName.value = "";
+          businessName.value = "";
+          website.value = "";
           emailEl.value = "";
           phoneEl.value = "";
 
@@ -421,16 +312,16 @@ function handleMobileSubmit() {
   console.log("inside");
   // validate fields
   let isUsernameValid = checkUsernameMobile();
-  let isLastnameValid = checkLastnameMobile();
+  let isWebsiteValid = checkWebsiteMobile();
   let isEmailValid = checkEmailMobile();
   let isPhoneValid = checkPhoneMobile();
   // let isAddressValid = checkAddressMobile();
 
   let isFormValid =
     isUsernameValid &&
-    isEmailValid &&
-    isLastnameValid &&
-    isPhoneValid
+    isWebsiteValid ||
+   ( isEmailValid ||
+    isPhoneValid)
 
   // submit to the server if the form is valid
   if (isFormValid) {
@@ -441,8 +332,7 @@ function handleMobileSubmit() {
       website: businessWebsiteMobile.value.trim(),
       email: businessEmailMobileEl.value.trim(),
       phoneNumber: businessPhoneMobileEl.value.trim(),
-      // socialMedia: businessSocialMobileEl.value.trim(),
-      // address: businessAddressMobileEl.value.trim(),
+      countryCode: countryCode.value,
       isRegistered: false,
       userRefKey: localStorage.getItem("*&#0__2t@m")
         ? localStorage.getItem("*&#0__2t@m")
@@ -466,12 +356,7 @@ function handleMobileSubmit() {
           businessWebsiteMobile.value = "";
           businessEmailMobileEl.value = "";
           businessPhoneMobileEl.value = "";
-          // businessAddressMobileEl.value = "";
-          // businessSocialMobileEl.value = "";
-
-
-          // array.push(validateData);
-          // display_array();
+          
           $("#preloder").fadeOut();
           $("#modal-data").html(data.Response.message) ;
           $("#modal-2").modal("show");
@@ -522,7 +407,7 @@ form.addEventListener(
         checkUsername();
         break;
       case "website":
-        checkLastname();
+        checkWebsite();
         break;
       case "email":
         checkEmail();
@@ -542,7 +427,7 @@ contactForm.addEventListener(
         checkUsernameMobile();
         break;
       case "businessWebsiteMobile":
-        checkLastnameMobile();
+        checkWebsiteMobile();
         break;
       case "businessEmailMobile":
         checkEmailMobile();

@@ -1,8 +1,11 @@
+
 const firstName = document.querySelector("#firstName");
 const lastName = document.querySelector("#lastName");
 const emailEl = document.querySelector("#email");
 const phoneEl = document.querySelector("#phone");
 const messageEl = document.querySelector("#message");
+const countryCode = document.querySelector("#phone2");
+const phoneValid = document.querySelector("#phoneValid");
 
 const firstNameContact = document.querySelector("#contactFirstName");
 const lastNameContact = document.querySelector("#contactLastName");
@@ -53,14 +56,10 @@ const checkLastname = () => {
 
 const checkPhone = () => {
   let valid = false;
-
-  const phone = phoneEl.value.trim();
-  if (!isRequired(phone)) {
-    showError(phoneEl, "phone number cannot be blank.");
-  } else if (!isValidPhone(phone)) {
-    showError(phoneEl, `Phone number is not valid.`);
-  } else {
-    showSuccess(phoneEl);
+  console.log("countryCode",countryCode.value)
+  const phone = phoneValid.value;
+  if(phone === 'true'){
+    console.log("phone::inside::::92392939",phone)
     valid = true;
   }
   return valid;
@@ -189,6 +188,7 @@ const isBetween = (length, min, max) =>
   length < min || length > max ? false : true;
 
 const showError = (input, message) => {
+
   // get the form-field element
   const formField = input.parentElement;
   // add the error class
@@ -197,6 +197,7 @@ const showError = (input, message) => {
 
   // show the error message
   const error = formField.querySelector("small");
+  console.log("error:::",error)
   error.textContent = message;
 };
 
@@ -231,10 +232,20 @@ function handleSubmit() {
       firstName: firstName.value.trim(),
       lastName: lastName.value.trim(),
       email: emailEl.value.trim(),
-      phoneNumber: phoneEl.value.trim(),
+      phoneNumber: `+${countryCode.value + phoneEl.value.trim()}`,
+      countryCode: countryCode.value,
       message: messageEl.value.trim(),
       isBusiness: false,
     };
+
+    let param = {
+      name: firstName.value.trim(),
+      toEmail: emailEl.value.trim(),
+      message: 'Hello there'
+    }
+
+    const serviceID = 'service_qgl6anv'
+    const templateID = 'template_v65m993'
 
     console.log("isFormValid", data);
     postData(
@@ -245,7 +256,11 @@ function handleSubmit() {
         // Display Modal
         console.log("response", data); // JSON data parsed by `data.json()` call
 
+
         if(data.Response.status == 200){
+          // emailjs.send(serviceID,templateID,param).then((res) => {
+          //   console.log("Success email sent",res)
+          // })
           firstName.value = "";
           lastName.value = "";
           emailEl.value = "";

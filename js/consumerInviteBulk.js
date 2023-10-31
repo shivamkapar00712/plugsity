@@ -17,16 +17,14 @@ document.getElementById("fileUploader").addEventListener("change", (event) => {
       var parsedJson = JSON.parse(json_object);
       jsonArr = parsedJson;
 
-      const verifiedData = parsedJson.filter((item) => isBetween(item.firstName.length , 3,20) && (item.firstName !== undefined) &&  isEmailValid(item.email) && isValidPhone(item.phoneNumber))
+      const verifiedData = parsedJson.filter((item) => isBetween(item.firstName.length , 3,20) && (item.firstName !== undefined) &&  item.email  || item.phoneNumber)
 
       jsonArr = verifiedData;
 
 
       document.getElementById("btn-sec").style.display = "block";
 
-      // for (let item in json_object) {
-      //   console.log("jsonObject", json_object[item]);
-      // }
+     
 
       // display_array
       var e = "<tbody>";
@@ -50,11 +48,11 @@ document.getElementById("fileUploader").addEventListener("change", (event) => {
           "</td>";
         e +=
           "<td class='success' style='width: 238px'>" +
-            jsonArr[y].email +
+            `${jsonArr[y].email !== undefined ? jsonArr[y].email : '-'}` +
           "</td>";
         e +=
           "<td class='success' style='width: 238px'>" +
-            jsonArr[y].phoneNumber +
+            `${jsonArr[y].phoneNumber !== undefined ? jsonArr[y].countryCode + jsonArr[y].phoneNumber : '-'}` +
           "</td>";
         e += "<tr>";
       }
@@ -74,7 +72,9 @@ const firstName = document.querySelector("#firstName");
 const lastName = document.querySelector("#lastName");
 const emailEl = document.querySelector("#email");
 const phoneEl = document.querySelector("#phone");
-// const zipCode = document.querySelector("#zipCode");
+const countryCode = document.querySelector("#phone2");
+const phoneValid = document.querySelector("#phoneValid");
+
 
 const firstNameMobile = document.querySelector("#firstNameMobile");
 const lastNameMobile = document.querySelector("#lastNameMobile");
@@ -126,13 +126,9 @@ const checkLastnameMobile = () => {
 
 const checkPhoneMobile = () => {
   let valid = false;
-  const phone = phoneMobileEl.value.trim();
-  if (!isRequired(phone)) {
-    showError(phoneMobileEl, "phone number cannot be blank.");
-  } else if (!isValidPhone(phone)) {
-    showError(phoneMobileEl, `Phone number is not valid.`);
-  } else {
-    showSuccess(phoneMobileEl);
+  const phone = phoneValid.value;
+  if(phone === 'true'){
+    console.log("phone::inside::::92392939",phone)
     valid = true;
   }
   return valid;
@@ -225,7 +221,7 @@ const isEmailValid = (email) => {
 };
 
 const isValidPhone = (phone) => {
-  const re = /^(\+{0,})(\d{0,})([(]{1}\d{1,3}[)]{0,}){0,}(\s?\d+|\+\d{2,3}\s{1}\d+|\d+){1}[\s|-]?\d+([\s|-]?\d+){1,2}(\s){0,}$/;
+  const re = /^(\([0-9]{3}\)|[0-9]{3})[\s\-]?[\0-9]{3}[\s\-]?[0-9]{4}$/;
   return re.test(phone);
 };
 
@@ -258,29 +254,7 @@ const showSuccess = (input) => {
   error.textContent = "";
 };
 
-// function display_array() {
-//   var e = "<tbody>";
-//   for (var y = 0; y < array.length; y++) {
-//     e += "<tr>";
-//     e +=
-//       "<td class='success' style='width: 238px'>" +
-//       array[y].firstName +
-//       "</td>";
-//     e +=
-//       "<td class='success' style='width: 238px'>" + array[y].lastName + "</td>";
-//     e += "<td class='success' style='width: 238px'>" + array[y].email + "</td>";
-//     e +=
-//       "<td class='success' style='width: 238px'>" +
-//       array[y].phoneNumber +
-//       "</td>";
-//     e +=
-//       "<td class='success' style='width: 238px'>" + array[y].zipCode + "</td>";
-//     e += "<tr>";
-//   }
-//   e += "<tbody/>";
 
-//   document.getElementById("tableData").innerHTML = e;
-// }
 
 const handleRedirect = () => {
   location.href = "consumer-invite.html";
@@ -298,7 +272,11 @@ const handleSubmit = () => {
 
 
     const newArr = jsonArr.map((v) => ({
-      ...v,
+      firstName: v.firstName,
+      lastName: v.lastName,
+      email: v.email ? v.email : '',
+      phoneNumber: v.phoneNumber ? v.phoneNumber : '',
+      countryCode: v.countryCode,
       isRegistered: false,
       userRefKey: localStorage.getItem("*&#0__2t@m")
           ? localStorage.getItem("*&#0__2t@m")
@@ -369,7 +347,7 @@ function handleMobileSubmit() {
   let isPhoneValid = checkPhoneMobile();
 
   let isFormValid =
-    isUsernameValid && isEmailValid && isLastnameValid && isPhoneValid;
+    isUsernameValid && isLastnameValid && (isEmailValid || isPhoneValid);
 
   // submit to the server if the form is valid
   if (isFormValid) {
@@ -380,7 +358,7 @@ function handleMobileSubmit() {
       lastName: lastNameMobile.value.trim(),
       email: emailMobileEl.value.trim(),
       phoneNumber: phoneMobileEl.value.trim(),
-      // zipCode: zipCodeMobile.value.trim(),
+      countryCode: countryCode.value,
       isRegistered: false,
       userRefKey: localStorage.getItem("*&#0__2t@m")
         ? localStorage.getItem("*&#0__2t@m")
@@ -401,7 +379,6 @@ function handleMobileSubmit() {
           lastNameMobile.value = "";
           emailMobileEl.value = "";
           phoneMobileEl.value = "";
-          // zipCodeMobile.value = "";
 
           $("#preloder").fadeOut();
           $("#modal-data").html(data.Response.message) ;
@@ -447,26 +424,26 @@ const debounce = (fn, delay = 500) => {
   };
 };
 
-form.addEventListener(
-  "input",
-  debounce(function (e) {
-    switch (e.target.id) {
-      case "firstName":
-        checkUsername();
-        break;
-      case "lastName":
-        checkLastname();
-        break;
-      case "email":
-        checkEmail();
-        break;
-      case "phone":
-        checkPhone();
-        break;
-    }
-  })
-);
-
+// form.addEventListener(
+//   "input",
+//   debounce(function (e) {
+//     switch (e.target.id) {
+//       case "firstNameMobile":
+//         checkUsername();
+//         break;
+//       case "lastNameMobile":
+//         checkLastname();
+//         break;
+//       case "emailMobile":
+//         checkEmail();
+//         break;
+//       case "phoneMobile":
+//         checkPhone();
+//         break;
+//     }
+//   })
+// );
+//
 contactForm.addEventListener(
   "input",
   debounce(function (e) {

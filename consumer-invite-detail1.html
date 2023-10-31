@@ -21,6 +21,8 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <!-- Custom Stylings -->
     <link href="css/custom.css" rel="stylesheet" />
+
+    <link href="css/intlTelInput.css" rel="stylesheet" />
     <!-- Jquery Library -->
     <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
   </head>
@@ -110,15 +112,19 @@
                           <small></small>
                         </td>
                         <td>
+                          <input type="hidden" id="phone2" name="phone"/>
+                          <input type="hidden" id="phoneValid" name="phone" value="false"/>
                           <input
                             id="phone"
-                            type="phone"
+                            type="tel"
                             class="form-field2"
                             placeholder="Enter phone number"
                             name="phone"
                             oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                             maxlength="12"
                           />
+                          <span id="valid-msg" class="hide">✓ Valid</span>
+                          <span id="error-msg" class="error-phone hide"></span>
                           <small></small>
                         </td>
                         <!-- <td>
@@ -228,15 +234,19 @@
               </div>
               <div class="form-field3">
                 <label> Phone number </label>
+                <input type="hidden" id="phone2" name="phone"/>
+                <input type="hidden" id="phoneValid" name="phone" value="false"/>
                 <input
                   id="phoneMobile"
                   name="phone"
-                  type="number"
+                  type="tel"
                   placeholder="Enter Phone Number"
                   class="field-style3"
                   oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                   maxlength="12"
                 />
+                <span id="valid-msgMobile" class="hide">✓ Valid</span>
+                <span id="error-msgMobile" class="error-phone hide"></span>
                 <small></small>
               </div>
               <!-- <div class="form-field3 m-b-35">
@@ -330,34 +340,109 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/functions.js"></script>
-    <!-- <script src="js/intlTelInput.js"></script> -->
+     <script src="js/intlTelInput.js"></script>
     <script src="js/consumerInvite.js"></script>
-    <!-- <script src="js/consumerInviteMobile.js"></script> -->
-    <!-- <script>
-      var input = document.querySelector("#phone");
-      window.intlTelInput(input, {
-        // allowDropdown: false,
-        // autoHideDialCode: false,
-        // autoPlaceholder: "off",
-        // dropdownContainer: document.body,
-        // excludeCountries: ["us"],
-        // formatOnDisplay: false,
-        // geoIpLookup: function(callback) {
-        //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
-        //     var countryCode = (resp && resp.country) ? resp.country : "";
-        //     callback(countryCode);
-        //   });
-        // },
-        // hiddenInput: "full_number",
-        // initialCountry: "auto",
-        // localizedCountries: { 'de': 'Deutschland' },
-        // nationalMode: false,
-        // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
-        // placeholderNumberType: "MOBILE",
-        // preferredCountries: ['cn', 'jp'],
-        // separateDialCode: true,
-        utilsScript: "js/utils.js",
+
+    <script>
+      const input = document.querySelector("#phone");
+      const button = document.querySelector("#btn");
+      const errorMsg = document.querySelector("#error-msg");
+      const validMsg = document.querySelector("#valid-msg");
+
+      // here, the index maps to the error code returned from getValidationError - see readme
+      const errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+      const iti = window.intlTelInput(input, {
+        separateDialCode: true,
+
+        utilsScript: "js/utils.js?1695806485509"
       });
-    </script> -->
+
+      const reset = () => {
+        input.classList.remove("error");
+        inputMobile.classList.remove("error");
+
+        errorMsg.innerHTML = "";
+        errorMsg.classList.add("hide");
+        validMsg.classList.add("hide");
+      };
+
+      $('#phone').on('blur',function(){
+        reset();
+        if (input.value !== '' && input.value.trim()) {
+          if (iti.isValidNumber()) {
+            console.log("inisdei2399990")
+            document.getElementById('phoneValid').value = true;
+            const getCode = iti.getSelectedCountryData().dialCode;
+            document.getElementById('phone2').value = getCode;
+            validMsg.classList.remove("hide");
+          } else {
+            input.classList.add("error");
+            const errorCode = iti.getValidationError();
+            errorMsg.innerHTML = errorMap[errorCode];
+            document.getElementById('phoneValid').value = false;
+            errorMsg.classList.remove("hide");
+          }
+        }else{
+          input.classList.add("error");
+          errorMsg.innerHTML = 'Phone cannot be blank';
+          document.getElementById('phoneValid').value = false
+          errorMsg.classList.remove("hide");
+        }
+      });
+
+      // on keyup / change flag: reset
+      input.addEventListener('change', reset);
+      input.addEventListener('keyup', reset);
+    </script>
+
+    <script>
+      const inputMobile = document.querySelector("#phoneMobile");
+      const errorMsgMobile = document.querySelector("#error-msgMobile");
+      const validMsgMobile = document.querySelector("#valid-msgMobile");
+
+      // here, the index maps to the error code returned from getValidationError - see readme
+      // const errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+      const itiMobile = window.intlTelInput(inputMobile, {
+        separateDialCode: true,
+        utilsScript: "js/utils.js?1695806485509"
+      });
+
+      const resetMobile = () => {
+        inputMobile.classList.remove("error");
+        errorMsgMobile.innerHTML = "";
+        errorMsgMobile.classList.add("hide");
+        validMsgMobile.classList.add("hide");
+      };
+
+      $('#phoneMobile').on('blur',function(){
+        resetMobile();
+        if (inputMobile.value !== '' && inputMobile.value.trim()) {
+          if (itiMobile.isValidNumber()) {
+            console.log("inisdei2399990")
+            document.getElementById('phoneValid').value = true;
+            const getCode = itiMobile.getSelectedCountryData().dialCode;
+            document.getElementById('phone2').value = getCode;
+            validMsgMobile.classList.remove("hide");
+          } else {
+            inputMobile.classList.add("error");
+            const errorCode = itiMobile.getValidationError();
+            errorMsgMobile.innerHTML = errorMap[errorCode];
+            document.getElementById('phoneValid').value = false;
+            errorMsgMobile.classList.remove("hide");
+          }
+        }else{
+          inputMobile.classList.add("error");
+          errorMsgMobile.innerHTML = 'Phone cannot be blank';
+          document.getElementById('phoneValid').value = false
+          errorMsgMobile.classList.remove("hide");
+        }
+      });
+
+      // on keyup / change flag: reset
+      inputMobile.addEventListener('change', reset);
+      inputMobile.addEventListener('keyup', reset);
+    </script>
+
+
   </body>
 </html>

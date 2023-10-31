@@ -48,6 +48,36 @@ body small {
     z-index: 99999;
     url()
 } */
+
+.intl-tel-input,
+.iti{
+  width: 100%;
+}
+
+.hide {
+  display: none;
+}
+
+#error-msg{
+  color: red !important;
+  font-size: 11px;
+}
+
+#error-msgMobile{
+  color: red !important;
+  font-size: 11px;
+}
+
+#valid-msg{
+  color: #1e7e34;
+  font-size: 11px;
+}
+
+#valid-msgMobile{
+  color: #1e7e34;
+  font-size: 11px;
+}
+
 #preloder {
   display: none;
   position: fixed;
@@ -702,6 +732,7 @@ table.table-1 td {
   letter-spacing: 0.5px;
   padding: 10px 0px;
   border-bottom: 1px solid #eff2f7;
+  width: 370px;
 }
 
 .form-field2 {

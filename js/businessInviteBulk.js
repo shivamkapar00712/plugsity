@@ -17,17 +17,14 @@ document.getElementById("fileUploader").addEventListener("change", (event) => {
 
       var parsedJson = JSON.parse(json_object);
 
-      const verifiedData = parsedJson.filter((item) => isBetween(item.businessName.length , 3,20) && (item.businessName !== undefined) &&  isEmailValid(item.email) && isValidURL(item.website) && isValidPhone(item.phoneNumber))
+      const verifiedData = parsedJson.filter((item) => isBetween(item.businessName.length , 3,20) && (item.businessName !== undefined) &&  ( isEmailValid(item.email) || isValidPhone(item.phoneNumber) ) || isValidURL(item.website) )
 
       jsonArr = verifiedData;
 
 
       document.getElementById("btn-sec").style.display = "block";
 
-      // for (let item in json_object) {
-      //   console.log("jsonObject", json_object[item]);
-      // }
-
+     
       // display_array
       var e = "<tbody>";
       e += "<thead>";
@@ -47,15 +44,15 @@ document.getElementById("fileUploader").addEventListener("change", (event) => {
         
         e +=
           "<td class='success' style='width: 238px'>" +
-            jsonArr[y].email +
+          `${jsonArr[y].email !== undefined ? jsonArr[y].email : '-'}` +
           "</td>";
         e +=
           "<td class='success' style='width: 238px'>" +
-            jsonArr[y].phoneNumber +
+          `${jsonArr[y].phoneNumber !== undefined ? jsonArr[y].phoneNumber : '-'}` +
           "</td>";
         e +=
           "<td class='success' style='width: 238px'>" +
-            jsonArr[y].website +
+          `${jsonArr[y].website !== undefined ? jsonArr[y].website : '-'}` +
           "</td>";
         
         e += "<tr>";
@@ -76,7 +73,8 @@ const firstName = document.querySelector("#firstName");
 const lastName = document.querySelector("#lastName");
 const emailEl = document.querySelector("#email");
 const phoneEl = document.querySelector("#phone");
-// const zipCode = document.querySelector("#zipCode");
+const countryCode = document.querySelector("#phone2");
+const phoneValid = document.querySelector("#phoneValid");
 
 const businessNameMobileEl = document.querySelector("#businessNameMobile");
 const businessWebsiteMobile = document.querySelector("#businessWebsiteMobile");
@@ -120,34 +118,23 @@ const checkUsernameMobile = () => {
   return valid;
 };
 
-const checkLastnameMobile = () => {
+const checkWebsiteMobile = () => {
   let valid = false;
-  const min = 3,
-    max = 25;
   const username = businessWebsiteMobile.value.trim();
-
-  if (!isRequired(username)) {
-    showError(businessWebsiteMobile, "Website cannot be blank.");
-  } else if (!isValidURL(username)) {
+ if (username !== '' && !isValidURL(username)) {
     showError(businessWebsiteMobile, `Invalid url format.`);
   } else {
     showSuccess(businessWebsiteMobile);
     valid = true;
   }
-
   return valid;
+
 };
 
 const checkPhoneMobile = () => {
   let valid = false;
-
-  const phone = businessPhoneMobileEl.value.trim();
-  if (!isRequired(phone)) {
-    showError(businessPhoneMobileEl, "phone number cannot be blank.");
-  } else if (!isValidPhone(phone)) {
-    showError(businessPhoneMobileEl, `Phone number is not valid.`);
-  } else {
-    showSuccess(businessPhoneMobileEl);
+  const phone = phoneValid.value;
+  if(phone === 'true'){
     valid = true;
   }
   return valid;
@@ -307,12 +294,14 @@ const  handleSubmit =  () => {
   // submit to the server if the form is valid
   $("#preloder").fadeIn();
 
-  // json.map((item, index) => {
-  //   console.log("item::", item);
-  // });
-
   const newArr = jsonArr.map((v) => ({
-    ...v,
+    // ...v,
+
+    businessName: v.businessName,
+    website: v.website ? v.website : '',
+    email: v.email ? v.email : '',
+    phoneNumber: v.phoneNumber ? v.phoneNumber : '',
+    countryCode: v.countryCode,
     isRegistered: false,
     userRefKey: localStorage.getItem("*&#0__2t@m")
       ? localStorage.getItem("*&#0__2t@m")
@@ -384,17 +373,11 @@ function handleMobileSubmit() {
   console.log("inside");
   // validate fields
   let isUsernameValid = checkUsernameMobile();
-  let isLastnameValid = checkLastnameMobile();
+  let isWebsiteValid = checkWebsiteMobile();
   let isEmailValid = checkEmailMobile();
   let isPhoneValid = checkPhoneMobile();
 
-  let isFormValid =
-    isUsernameValid &&
-    isEmailValid &&
-    isLastnameValid &&
-    isPhoneValid;
-    // &&
-    // isAddressValid;
+  let isFormValid = isUsernameValid && (isEmailValid || isPhoneValid) || isWebsiteValid
 
   // submit to the server if the form is valid
   if (isFormValid) {
@@ -405,6 +388,7 @@ function handleMobileSubmit() {
       website: businessWebsiteMobile.value.trim(),
       email: businessEmailMobileEl.value.trim(),
       phoneNumber: businessPhoneMobileEl.value.trim(),
+      countryCode: countryCode.value,
       isRegistered: false,
       userRefKey: localStorage.getItem("*&#0__2t@m")
         ? localStorage.getItem("*&#0__2t@m")
@@ -469,25 +453,25 @@ const debounce = (fn, delay = 500) => {
 };
 
 
-form.addEventListener(
-  "input",
-  debounce(function (e) {
-    switch (e.target.id) {
-      case "firstName":
-        checkUsername();
-        break;
-      case "lastName":
-        checkLastname();
-        break;
-      case "email":
-        checkEmail();
-        break;
-      case "phone":
-        checkPhone();
-        break;
-    }
-  })
-);
+// form.addEventListener(
+//   "input",
+//   debounce(function (e) {
+//     switch (e.target.id) {
+//       case "firstName":
+//         checkUsername();
+//         break;
+//       case "lastName":
+//         checkLastname();
+//         break;
+//       case "email":
+//         checkEmail();
+//         break;
+//       case "phone":
+//         checkPhone();
+//         break;
+//     }
+//   })
+// );
 
 contactForm.addEventListener(
   "input",
@@ -497,16 +481,13 @@ contactForm.addEventListener(
         checkUsernameMobile();
         break;
       case "businessWebsiteMobile":
-        checkLastnameMobile();
+        checkWebsiteMobile();
         break;
       case "businessEmailMobile":
         checkEmailMobile();
         break;
       case "businessMobile":
         checkPhoneMobile();
-        break;
-      case "businessAddMobile":
-        checkAddressMobile();
         break;
     }
   })
