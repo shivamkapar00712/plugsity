@@ -3,7 +3,8 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Thankyou | Plugsity</title>
+    <meta name="description" content="Explore products, services, and events from small businesses anywhere on Plugsity -  your platform for community-driven commerce. Join Us #ShopLocal #SmallBusinesses" />
+    <title>Plugsity - Discover, Shop, and Share Small Businesses  | Coming Soon</title>
     <!-- Animate With CSS -->
     <link rel="stylesheet" type="text/css" href="css/animate.css" />
     <!-- Font Awesome KIT -->
@@ -21,7 +22,16 @@
     <link href="css/custom.css" rel="stylesheet" />
     <!-- Jquery Library -->
     <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script>
+      console.log(localStorage.getItem("isBusiness"))
+      var details;
+      if(localStorage.getItem("isBusiness") === 'true'){
+        details = "We added your email address to the signup queue. Be the first to sell when we launch."
+      } else {
+        details = "We added your email address to the signup queue. We'll let you know when you can start shopping."
 
+      }
+    </script>
   </head>
   <body>
     <!-- Header Starts Here -->
@@ -42,13 +52,9 @@
         <div class="thankyou-box text-center">
           <img src="images/thankyou-window.svg" />
           <h4 class="col-black1">Thank you for registering</h4>
-          <p class="col-grey1 m-b-40">
-            We added your email address to the signup queue. Be the first to
-            sell when we launch.
+          <p id="thanksContent" class="col-grey1 m-b-40">
+            <script>document.write(details)</script>
           </p>
-<!--          <a href="consumer-invite.html" class="next-btn standard-btn">-->
-<!--            Next-->
-<!--          </a>-->
 
           <button
             id="nextBtn"
