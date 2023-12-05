@@ -1,1 +1,4 @@
 DirectoryIndex consumer.html 
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^www\.plugisty.onrender\.com
+RewriteRule ^(.*)$ http://plugisty.onrender.com$1 [R=permanent,L]
