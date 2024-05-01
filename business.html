@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Explore products, services, and events from small businesses anywhere on Plugsity -  your platform for community-driven commerce. Join Us #ShopLocal #SmallBusinesses" />
-    <title>Plugsity - Discover, Shop, and Share Small Businesses  | Coming Soon</title>
+    <meta
+      name="description"
+      content="Explore products, services, and events from small businesses anywhere on Plugsity -  your platform for community-driven commerce. Join Us #ShopLocal #SmallBusinesses"
+    />
+    <title>
+      Plugsity - Discover, Shop, and Share Small Businesses | Coming Soon
+    </title>
     <!-- Animate With CSS -->
     <link rel="stylesheet" type="text/css" href="css/animate.css" />
     <!-- Font Awesome KIT -->
@@ -24,24 +28,70 @@
     <link href="css/intlTelInput.css" rel="stylesheet" />
     <!-- Jquery Library -->
     <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript"
-            src="js/email.min.js">
-    </script>
+    <script type="text/javascript" src="js/email.min.js"></script>
     <script type="text/javascript">
       (function () {
         emailjs.init("ZMNEu1kphR_yFYdRS");
       })();
     </script>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9XXJHVMVJ8"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-9XXJHVMVJ8"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-  gtag('config', 'G-9XXJHVMVJ8');
-</script>
+      gtag("config", "G-9XXJHVMVJ8");
 
+      gtag("event", "page_view", {
+        page_title: "Business Page",
+        page_location: window.location.href,
+        page_path: window.location.pathname,
+      });
+      // Start measuring engagement time when the page loads
+      const startTime = performance.now();
+
+      // When the user leaves the page (e.g., closes the tab)
+      window.addEventListener("beforeunload", () => {
+        const endTime = performance.now();
+        const engagementTime = endTime - startTime; // Calculate engagement time in milliseconds
+
+        // Send the engagement time to Google Analytics as a custom event
+        gtag("event", "user_engagement", {
+          timeSpendInSecond: engagementTime/1000,
+        });
+      });
+    </script>
+    <script type="text/javascript">
+      (function () {
+        const scrollDepth = Math.round(
+          (window.pageYOffset /
+            (document.documentElement.scrollHeight - window.innerHeight)) *
+            100
+        );
+        ga(
+          "send",
+          "event",
+          "Scroll Depth",
+          "Percentage Scrolled",
+          scrollDepth + "%"
+        );
+      })();
+    </script>
+    <script>
+      function trackEmailButtonClick() {
+        // Send an event to GA4
+        gtag("event", "email_button_click", {
+          event_category: "Email",
+          event_label: "Email Click",
+        });
+      }
+    </script>
   </head>
   <body>
     <div id="preloder">
@@ -70,7 +120,12 @@
     <!-- Header Ends Here -->
     <!-- Banner Section Starts Here -->
     <section class="pad-top-100 pad-bot-100 banner-sec">
-      <a data-toggle="modal" data-target="#modal-1" class="envelope-icon">
+      <a
+        data-toggle="modal"
+        data-target="#modal-1"
+        class="envelope-icon"
+        onclick="trackEmailButtonClick()"
+      >
         <img src="images/envelope-icon.svg" />
       </a>
       <div class="container">
@@ -287,8 +342,13 @@
                   <div class="col-md-6 col-lg-6 col-sm-6 col-12">
                     <div class="form-field1">
                       <label> Phone number </label>
-                      <input type="hidden" id="phone2" name="phone"/>
-                      <input type="hidden" id="phoneValid" name="phone" value="false"/>
+                      <input type="hidden" id="phone2" name="phone" />
+                      <input
+                        type="hidden"
+                        id="phoneValid"
+                        name="phone"
+                        value="false"
+                      />
                       <input
                         id="phone"
                         type="number"
@@ -346,7 +406,7 @@
             </span>
           </div>
           <div class="social-icons">
-            <a target="_blank" href="https://www.instagram.com/plugsity/">
+            <a target="_blank" href="https://www.instagram.com/plugsity/" onclick="gtag('event', 'Instagram Link', {'event_category': 'Instagram button', 'event_label': 'Click on Instagram'});">
               <img src="images/footer-icon1.svg" />
             </a>
             <a target="_blank" href="https://www.facebook.com/Plugsity/">
@@ -355,7 +415,11 @@
             <a target="_blank" href="https://twitter.com/plugsity">
               <img src="images/footer-icon3.svg" />
             </a>
-            <a target="_blank" href="https://www.youtube.com/@plugsity" target="_blank">
+            <a
+              target="_blank"
+              href="https://www.youtube.com/@plugsity"
+              target="_blank"
+            >
               <img src="images/footer-icon4.svg" />
             </a>
           </div>
@@ -373,7 +437,7 @@
       aria-hidden="true"
     >
       <div class="modal-dialog" role="document" style="max-width: 550px">
-        <div class="modal-content popup-wrapper">
+        <form id="contact_us_form" class="modal-content popup-wrapper">
           <div class="popup-head popup-head3">
             <!--    <button type="button" class="close close-btn1" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
@@ -449,7 +513,6 @@
                         placeholder="Enter message"
                       ></textarea>
                       <small></small>
-
                     </div>
                   </div>
                   <div class="col-md-12 col-lg-12 col-sm-12 col-12">
@@ -471,7 +534,7 @@
                         value="Submit"
                         onclick="handleContactForm()"
                         class="custom-btn2 standard-btn"
-                        name=""
+                        name="contact_us_button"
                         style="
                           min-width: 150px;
                           font-weight: 600;
@@ -486,7 +549,7 @@
               </form>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
     <!-- Contact Form Popup Ends Here -->
@@ -506,7 +569,7 @@
             <!-- <button type="button" class="close close-btn1" data-dismiss="modal" aria-label="Close">
                <span aria-hidden="true">&times;</span>
                </button>  -->
-<!--            <h4 class="col-black1">Email already used for registration</h4>-->
+            <!--            <h4 class="col-black1">Email already used for registration</h4>-->
             <p id="modal-data" class="col-grey1 m-b-25">
               We have noticed that the email used for registration has been
               already used and been registered to join the waitlist.
@@ -524,7 +587,6 @@
                     >
                       Okay
                     </button>
-
                   </div>
                 </div>
               </div>
@@ -549,11 +611,17 @@
       const validMsg = document.querySelector("#valid-msg");
 
       // here, the index maps to the error code returned from getValidationError - see readme
-      const errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+      const errorMap = [
+        "Invalid number",
+        "Invalid country code",
+        "Too short",
+        "Too long",
+        "Invalid number",
+      ];
       const iti = window.intlTelInput(input, {
         separateDialCode: true,
 
-        utilsScript: "js/utils.js?1695806485509"
+        utilsScript: "js/utils.js?1695806485509",
       });
 
       const reset = () => {
@@ -563,33 +631,33 @@
         validMsg.classList.add("hide");
       };
 
-      $('#phone').on('blur',function(){
+      $("#phone").on("blur", function () {
         reset();
-        if (input.value !== '' && input.value.trim()) {
+        if (input.value !== "" && input.value.trim()) {
           if (iti.isValidNumber()) {
-            console.log("inisdei2399990")
-            document.getElementById('phoneValid').value = true;
+            console.log("inisdei2399990");
+            document.getElementById("phoneValid").value = true;
             validMsg.classList.remove("hide");
           } else {
             input.classList.add("error");
             const errorCode = iti.getValidationError();
             errorMsg.innerHTML = errorMap[errorCode];
             var getCode = iti.getSelectedCountryData().dialCode;
-            document.getElementById('phone2').value = getCode;
-            document.getElementById('phoneValid').value = false;
+            document.getElementById("phone2").value = getCode;
+            document.getElementById("phoneValid").value = false;
             errorMsg.classList.remove("hide");
           }
-        }else{
+        } else {
           input.classList.add("error");
-          errorMsg.innerHTML = 'Phone cannot be blank';
-          document.getElementById('phoneValid').value = false
+          errorMsg.innerHTML = "Phone cannot be blank";
+          document.getElementById("phoneValid").value = false;
           errorMsg.classList.remove("hide");
         }
       });
 
       // on keyup / change flag: reset
-      input.addEventListener('change', reset);
-      input.addEventListener('keyup', reset);
+      input.addEventListener("change", reset);
+      input.addEventListener("keyup", reset);
     </script>
   </body>
 </html>

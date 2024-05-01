@@ -44,8 +44,35 @@
   gtag('js', new Date());
 
   gtag('config', 'G-9XXJHVMVJ8');
-</script>
 
+  gtag("event", "page_view", {
+        page_title: "Consumer Page",
+        page_location: window.location.href,
+        page_path: window.location.pathname,
+      });
+      // Start measuring engagement time when the page loads
+      const startTime = performance.now();
+
+      // When the user leaves the page (e.g., closes the tab)
+      window.addEventListener("beforeunload", () => {
+        const endTime = performance.now();
+        const engagementTime = endTime - startTime; // Calculate engagement time in milliseconds
+
+        // Send the engagement time to Google Analytics as a custom event
+        gtag("event", "user_engagement", {
+          timeSpendInSecond: engagementTime/1000,
+        });
+      });
+</script>
+<script>
+  function trackEmailButtonClick() {
+    // Send an event to GA4
+    gtag("event", "email_button_click", {
+      event_category: "Email",
+      event_label: "Email Click",
+    });
+  }
+</script>
 
   </head>
   <body>
@@ -78,7 +105,9 @@
     <!-- Header Ends Here -->
     <!-- Banner Section Starts Here -->
     <section class="pad-top-60 pad-bot-60 banner-sec">
-      <a data-toggle="modal" data-target="#modal-1" class="envelope-icon">
+      <a data-toggle="modal" data-target="#modal-1" class="envelope-icon"
+      onclick="trackEmailButtonClick()"
+      >
         <img src="images/envelope-icon.svg" />
       </a>
       <div class="container">
