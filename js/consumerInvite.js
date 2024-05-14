@@ -262,7 +262,9 @@ function handleSubmit() {
         ? localStorage.getItem("*&#0__2t@m")
         : null,
     };
-
+    gtag('event', 'Manual Invitation', {
+      'invite_type': 'consumer',
+    });
     const validateData =
         {
           firstName: firstName.value.trim(),
@@ -345,7 +347,9 @@ function handleMobileSubmit() {
         ? localStorage.getItem("*&#0__2t@m")
         : null,
     };
-
+    gtag('event', 'Manual Invitation', {
+      'invite_type': 'consumer',
+    });
     const validateData = data;
     postData(
       "https://api.cs.plugsity.com/plugisty/avi/v1/inviteCustomer",

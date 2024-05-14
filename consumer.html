@@ -63,7 +63,15 @@
         });
       });
 </script>
-
+<script>
+  function trackEmailButtonClick() {
+    // Send an event to GA4
+    gtag("event", "email_button_click", {
+      event_category: "Email",
+      event_label: "Email Click",
+    });
+  }
+</script>
   </head>
   <body>
     <div id="preloder">
@@ -95,7 +103,12 @@
     <!-- Header Ends Here -->
     <!-- Banner Section Starts Here -->
     <section class="pad-top-60 pad-bot-60 banner-sec">
-      <a data-toggle="modal" data-target="#modal-1" class="envelope-icon">
+      <a
+      data-toggle="modal"
+      data-target="#modal-1"
+      class="envelope-icon"
+      onclick="trackEmailButtonClick()"
+    >
         <img src="images/envelope-icon.svg" />
       </a>
       <div class="container">

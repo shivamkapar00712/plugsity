@@ -33,8 +33,17 @@ $(document).ready(function () {
 
   $(".next-btn").on("click", function (event) {
     if (localStorage.getItem("isBusiness") === 'true') {
+      gtag('event', 'Next_button_clicks_after_business_form_submit', {
+        'event_category': 'form',
+        'event_label': 'signup_form'
+    });
       window.location = "business-invite.html";
+
     } else {
+      gtag('event', 'Next_button_clicks_after_consumer_form_submit', {
+        'event_category': 'form',
+        'event_label': 'signup_form'
+    });
       window.location = "consumer-invite.html";
     }
   });

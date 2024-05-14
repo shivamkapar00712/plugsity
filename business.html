@@ -67,6 +67,7 @@
         });
       });
     </script>
+
     <script type="text/javascript">
       (function () {
         const scrollDepth = Math.round(
@@ -92,6 +93,15 @@
         });
       }
     </script>
+    <script>
+      function returnToHomepageTrack() {
+        // Send an event to GA4
+        gtag('event', 'return_to_homepage', {
+          event_name:"return_to_homepage",
+          event_type:"click"
+      });
+      }
+    </script>
   </head>
   <body>
     <div id="preloder">
@@ -102,7 +112,7 @@
       <div class="container">
         <div class="header-row">
           <div class="logo">
-            <a href=""> <img src="images/logo.svg" /> </a>
+            <a href="index.html" onclick="returnToHomepageTrack()"> <img src="images/logo.svg"  /> </a>
           </div>
           <div class="header-actions">
             <a href="index.html" class="head-btn1 border-1"> Consumer </a>

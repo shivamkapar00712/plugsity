@@ -246,7 +246,43 @@ function handleSubmit() {
   let isBusinessValid = checkBusinessName();
   let isEmailValid = checkEmail();
   let isPhoneValid = checkPhone();
+  if(!isUsernameValid){
+    gtag('event', 'form_error', {
+      'form_name': 'join_our_waitlist',
+      'form_type': 'business',
+      'form_error':"Error in Username"
+  });
+  }
+  if(!isLastnameValid){
+    gtag('event', 'form_error', {
+      'form_name': 'join_our_waitlist',
+      'form_type': 'business',
+      'form_error':"Error in Lastname"
+  });
+  }
+  if(!isBusinessValid){
+    gtag('event', 'form_error', {
+      'form_name': 'join_our_waitlist',
+      'form_type': 'business',
+      'form_error':"Error in Business Name"
+  });
+  }
+  if(!isEmailValid){
+    gtag('event', 'form_error', {
+      'form_name': 'join_our_waitlist',
+      'form_type': 'business',
+      'form_error':"Error in Email"
+  });
+  }if(!isPhoneValid){
+    gtag('event', 'form_error', {
+      'form_name': 'join_our_waitlist',
+      'form_type': 'business',
+      'form_error':"Error in Phone"
+  });
+  }
+  
 
+ 
   let isFormValid =
     isUsernameValid &&
     isEmailValid &&
@@ -291,6 +327,10 @@ function handleSubmit() {
           emailjs.send(serviceID,templateID,param).then((res) => {
             console.log("Success email sent",res)
           })
+          gtag('event', 'signup_business', {
+            'event_category': 'form',
+            'event_label': 'signup_form'
+        });
           firstName.value = "";
           lastName.value = "";
           businessName.value = "";
@@ -329,6 +369,42 @@ function handleContactForm() {
   let isSubjectValid = checkContactSubject();
   let isFormValid = isUsernameValid && isEmailValid && isLastnameValid && isMessageValid && isSubjectValid;
   // submit to the server if the form is valid
+  if(!isUsernameValid){
+    gtag('event', 'form_error', {
+      'form_name': 'contact_us',
+      'form_type': 'business',
+      'form_error':"Error in Username"
+  });
+  }
+  if(!isLastnameValid){
+    gtag('event', 'form_error', {
+      'form_name': 'contact_us',
+      'form_type': 'business',
+      'form_error':"Error in Lastname"
+  });
+  }
+  if(!isSubjectValid){
+    gtag('event', 'form_error', {
+      'form_name': 'contact_us',
+      'form_type': 'business',
+      'form_error':"Error in Subject"
+  });
+  }
+  if(!isEmailValid){
+    gtag('event', 'form_error', {
+      'form_name': 'contact_us',
+      'form_type': 'business',
+      'form_error':"Error in Email"
+  });
+  }
+  
+  if(!isMessageValid){
+    gtag('event', 'form_error', {
+      'form_name': 'contact_us',
+      'form_type': 'business',
+      'form_error':"Error in Message"
+  });
+  }
   if (isFormValid) {
     $("#preloder").fadeIn();
 
@@ -348,7 +424,7 @@ function handleContactForm() {
         $("#modal-1").modal("hide");
 
         if(data.Response.status == 200){
-
+          
           $("#preloder").fadeOut();
           handleCancel();
           $("#modal-data").html("Thanks for contact us we will revert you soon") ;

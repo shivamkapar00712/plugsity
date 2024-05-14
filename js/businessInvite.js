@@ -262,7 +262,9 @@ function handleSubmit() {
 
     const validateData = data;
 
-
+    gtag('event', 'Manual Invitation', {
+      'invite_type': 'business',
+    });
     console.log("isFormValid", data);
     postData(
       "https://api.cs.plugsity.com/plugisty/avi/v1/inviteBusinessUser",
@@ -338,7 +340,9 @@ function handleMobileSubmit() {
         ? localStorage.getItem("*&#0__2t@m")
         : null,
     };
-
+    gtag('event', 'Manual Invitation', {
+      'invite_type': 'business',
+    });
     const validateData = data;
     postData(
       "https://api.cs.plugsity.com/plugisty/avi/v1/inviteBusinessUser",

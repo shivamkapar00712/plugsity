@@ -44,7 +44,10 @@
   gtag('js', new Date());
 
   gtag('config', 'G-9XXJHVMVJ8');
-
+  gtag('event', 'return_to_homepage', {
+      event_name:"return_to_homepage",
+      event_type:"default"
+  });
   gtag("event", "page_view", {
         page_title: "Consumer Page",
         page_location: window.location.href,
@@ -73,7 +76,15 @@
     });
   }
 </script>
-
+<script>
+  function returnToHomepageTrack() {
+    // Send an event to GA4
+    gtag('event', 'return_to_homepage', {
+      event_name:"return_to_homepage",
+      event_type:"click"
+  });
+  }
+</script>
   </head>
   <body>
     <div id="preloder">
@@ -85,7 +96,7 @@
       <div class="container">
         <div class="header-row">
           <div class="logo">
-            <a href="index.html"> <img src="images/logo.svg" /> </a>
+            <a href="index.html" onclick="returnToHomepageTrack()"> <img src="images/logo.svg" /> </a>
           </div>
           <div class="header-actions">
             <a href="index.html" class="head-btn1 head-active border-1">

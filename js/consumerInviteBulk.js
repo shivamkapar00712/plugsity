@@ -284,6 +284,10 @@ const handleSubmit = () => {
     }));
 
     async function processObjects() {
+      gtag('event', 'bulk_import_consumer', {
+        'event_category': 'form',
+        'event_label': 'invite_form'
+    });
       for (const object of newArr) {
         await postData(
             "https://api.cs.plugsity.com/plugisty/avi/v1/inviteCustomer",
