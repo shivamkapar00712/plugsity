@@ -1082,6 +1082,25 @@ footer.footer-1 {
   color: white;
 }
 
+.home-btn {
+  border: none;
+  border: 1px solid #2e23fb;
+  color: white;
+  background: #2e23fb;
+  font-size: 17px;
+  font-weight: 500;
+  padding: 13px 20px;
+  letter-spacing: 0.6px;
+  border-radius: 10px;
+  min-width: 100%;
+  text-align: center;
+}
+
+.home-btn:hover {
+  background: #231bb4;
+  color: white;
+}
+
 .thankyou-box {
   max-width: 320px;
   margin: auto;

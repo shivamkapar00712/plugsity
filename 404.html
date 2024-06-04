@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Explore products, services, and events from small businesses anywhere on Plugsity -  your platform for community-driven commerce. Join Us #ShopLocal #SmallBusinesses" />
+    <title>Plugsity - Discover, Shop, and Share Small Businesses  | Coming Soon</title>
+    <!-- Animate With CSS -->
+    <link rel="stylesheet" type="text/css" href="css/animate.css" />
+    <!-- Font Awesome KIT -->
+    <link href="fontawesome-kit-5/css/all.css" rel="stylesheet" />
+    <link href="fontawesome-kit-5/css/fontawesome.css" rel="stylesheet" />
+    <link href="fontawesome-kit-5/css/brands.css" rel="stylesheet" />
+    <link href="fontawesome-kit-5/css/solid.css" rel="stylesheet" />
+    <script defer src="fontawesome-kit-5/js/all.js"></script>
+    <script defer src="fontawesome-kit-5/js/brands.js"></script>
+    <script defer src="fontawesome-kit-5/js/solid.js"></script>
+    <script defer src="fontawesome-kit-5/js/fontawesome.js"></script>
+    <!-- Bootstrap Grids -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Custom Stylings -->
+    <link href="css/custom.css" rel="stylesheet" />
+    <!-- Jquery Library -->
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script>
+      console.log(localStorage.getItem("isBusiness"))
+      var details;
+      if(localStorage.getItem("isBusiness") === 'true'){
+        details = "We added your email address to the signup queue. Be the first to sell when we launch."
+      } else {
+        details = "We added your email address to the signup queue. We'll let you know when you can start shopping."
+
+      }
+    </script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9XXJHVMVJ8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9XXJHVMVJ8');
+</script>
+
+  </head>
+  <body>
+    <!-- Header Starts Here -->
+    <header class="header-1 header-2">
+      <div class="container">
+        <div class="header-row">
+          <div class="logo logo-2">
+            <a href=""> <img src="images/logo.svg" /> </a>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Header Ends Here -->
+
+    <!-- Thankyou Content Section Starts Here -->
+    <section class="thankyou-wrapper">
+      <div class="container">
+        <div class="thankyou-box text-center">
+          <h1 class="col-black1">404</h>
+          <p id="thanksContent" class="col-grey1 m-b-40">
+           page not found
+          </p>
+         
+          <a 
+          class="home-btn standard-btn"
+
+          style="color: #ffffff;"
+          
+          href="/index.html">
+            Home
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- Thank you Content Section Ends Here -->
+
+    <!-- Footer Section Starts Here -->
+    <footer class="footer-1 footer-2">
+      <div class="container">
+        <div class="footer-row">
+          <div class="footer-logo">
+            <a href=""> <img src="images/footer-logo.svg" /> </a>
+          </div>
+          <div class="copyrights-text">
+            <span class="col-white">
+              © 2022 Plugsity. All rights reserved
+            </span>
+          </div>
+          <div class="social-icons">
+            <a href="https://www.instagram.com/plugsity/">
+              <img src="images/footer-icon1.svg" />
+            </a>
+            <a href="https://www.facebook.com/Plugsity/">
+              <img src="images/footer-icon2.svg" />
+            </a>
+            <a href="https://twitter.com/plugsity">
+              <img src="images/footer-icon3.svg" />
+            </a>
+            <a href="https://www.youtube.com/@plugsity">
+              <img src="images/footer-icon4.svg" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- Footer Section Starts Here -->
+
+    <!-- Bootstrap Javascript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
